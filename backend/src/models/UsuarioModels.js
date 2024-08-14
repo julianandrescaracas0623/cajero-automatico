@@ -1,48 +1,59 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../db/conexion");
+const conexion = require("../database/conexion");
 
 // Definición del modelo de Usuario
-const Usuario = sequelize.define(
+const Usuario = conexion.define(
   "Usuario",
   {
+    idUsuario: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
     tipoDocumento: {
       type: DataTypes.STRING(20),
       allowNull: false,
-      primaryKey: true,
     },
     documento: {
       type: DataTypes.STRING(20),
       allowNull: false,
-      primaryKey: true,
     },
     nombre: {
       type: DataTypes.STRING(100),
-      allowNull: true,
+      allowNull: false,
     },
     correo: {
       type: DataTypes.STRING(100),
-      allowNull: true,
+      allowNull: false,
+      unique: true,
     },
     fechaNacimiento: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
     },
     fechaExpedicion: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
     },
     numeroTelefono: {
       type: DataTypes.STRING(20),
-      allowNull: true,
+      allowNull: false,
     },
     numeroPin: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {
     tableName: "Usuario",
     timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ["tipoDocumento", "documento"],
+      },
+    ],
   }
 );
 

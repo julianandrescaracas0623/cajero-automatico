@@ -1,42 +1,43 @@
 const { DataTypes } = require("sequelize");
-const { sequelize } = require("../db/conexion");
-const { Usuario } = require("./UsuarioModels");
+const  conexion  = require("../database/conexion");
+const Usuario = require("./UsuarioModels");
 
-const Cuenta = sequelize.define(
+const Cuenta = conexion.define(
   "Cuenta",
   {
     idCuenta: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
-    },
-    tipoDocumento: {
-      type: DataTypes.STRING(20),
       allowNull: false,
     },
-    documento: {
-      type: DataTypes.STRING(20),
+    idUsuario: {
+      type: DataTypes.INTEGER,
       allowNull: false,
+      unique: true,
     },
     saldo: {
       type: DataTypes.DOUBLE,
-      allowNull: true,
+      allowNull: false,
     },
   },
   {
     tableName: "Cuenta",
     timestamps: false,
+    indexes: [
+      {
+        unique: true,
+        fields: ["idUsuario"],
+      },
+    ],
   }
 );
 
-// Definir la relación
+// Definir la relación con Usuario
 Cuenta.belongsTo(Usuario, {
-  foreignKey: "tipoDocumento",
-  targetKey: "tipoDocumento",
-});
-Cuenta.belongsTo(Usuario, {
-  foreignKey: "documento",
-  targetKey: "documento",
+  foreignKey: "idUsuario",
+  onDelete: "NO ACTION",
+  onUpdate: "NO ACTION",
 });
 
 module.exports = Cuenta;
