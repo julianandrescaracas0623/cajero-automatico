@@ -96,5 +96,5 @@ El taller no solo pretende enseñar la creación de un cajero automático en C++
 
 ## Estudiantes
 
-- [@julianandrescaracas0623](https://github.com/julianandrescaracas0623)
-- [@DaR3k](https://github.com/DaR3k6)
+- [@Julian Andres Caracas](https://github.com/julianandrescaracas0623)
+- [@Kevin Villegas Pérez](https://github.com/DaR3k6)
