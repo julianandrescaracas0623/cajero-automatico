@@ -88,7 +88,7 @@ Este proyecto proporciona una base sólida para entender cómo funcionan los caj
 
 Sin embargo, este enfoque inicial es solo el punto de partida. ya que el  verdadero desafío impartido en clase  radica en la transición hacia una solución moderna que responda a las demandas tecnológicas de la actualidad. Este taller busca no solo afianzar los conceptos básicos, sino también abrir el camino hacia una implementación más sofisticada que incluya una interfaz gráfica de usuario (GUI), que permita una interacción más intuitiva y accesible, y la incorporación de funcionalidades web, que ofrezcan servicios bancarios remotos y en tiempo real.
 
-Además, la evolución del proyecto hacia el uso de bases de datos para el almacenamiento seguro y persistente de la información de los usuarios refleja la necesidad de sistemas robustos y escalables. Este avance es crucial para la gestión eficiente de grandes volúmenes de datos y la seguridad de las transacciones
+Además, la evolución del proyecto hacia el uso de bases de datos para el almacenamiento seguro y persistente de la información de los usuarios refleja la necesidad de sistemas robustos y escalables. Este avance es crucial para la gestión eficiente de grandes volúmenes de datos y la seguridad de las transacciones.
 
 ## Resumen
 El taller no solo pretende enseñar la creación de un cajero automático en C++, sino también prepararnos para enfrentar  retos como actualizar y modernizar sistemas de software, llevando soluciones básicas a entornos de desarrollo más avanzados y orientados a las necesidades tecnológicas actuales. Esto es fundamental para cualquier desarrollador que aspire a diseñar e implementar soluciones financieras en un mundo cada vez más digitalizado.
