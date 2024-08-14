@@ -70,16 +70,16 @@ La función `setlocale(LC_CTYPE, "spanish");` se utiliza para establecer la conf
 
 ### Flujo General
 
-1. **Inicio**: 
+1. **Inicio**:
    - El programa comienza con la carga de datos de los clientes mediante la función `cargar()`. Luego, solicita al usuario que ingrese su número de usuario y su PIN para autenticarse.
 
-2. **Autenticación**: 
+2. **Autenticación**:
    - La autenticación se realiza comparando el número de usuario y el PIN ingresados con los datos almacenados en el arreglo `visa`. Si ambos coinciden, el usuario puede acceder al menú principal.
 
-3. **Operaciones**: 
+3. **Operaciones**:
    - Desde el menú principal, el usuario puede consultar su saldo, retirar dinero, o agregar fondos a su cuenta. Dependiendo de la opción seleccionada, se llaman las funciones correspondientes.
 
-4. **Finalización**: 
+4. **Finalización**:
    - Tras realizar una operación, el programa puede regresar al menú principal para permitir más transacciones o finalizar según la decisión del usuario.
 
 ## Conclusión
@@ -91,10 +91,10 @@ Sin embargo, este enfoque inicial es solo el punto de partida. ya que el  verdad
 Además, la evolución del proyecto hacia el uso de bases de datos para el almacenamiento seguro y persistente de la información de los usuarios refleja la necesidad de sistemas robustos y escalables. Este avance es crucial para la gestión eficiente de grandes volúmenes de datos y la seguridad de las transacciones.
 
 ## Resumen
+
 El taller no solo pretende enseñar la creación de un cajero automático en C++, sino también prepararnos para enfrentar  retos como actualizar y modernizar sistemas de software, llevando soluciones básicas a entornos de desarrollo más avanzados y orientados a las necesidades tecnológicas actuales. Esto es fundamental para cualquier desarrollador que aspire a diseñar e implementar soluciones financieras en un mundo cada vez más digitalizado.
 
 ## Estudiantes
 
 - [@julianandrescaracas0623](https://github.com/julianandrescaracas0623)
 - [@DaR3k](https://github.com/DaR3k6)
-
