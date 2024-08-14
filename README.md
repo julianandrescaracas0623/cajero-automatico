@@ -1,6 +1,6 @@
 # Análisis de un Cajero Automático en C++
 
-Este proyecto es una simulación básica de un cajero automático escrita en C++. El objetivo es comprender el funcionamiento básico de un cajero automático programado en C++ y explorar los requerimientos necesarios para actualizar su implementación hacia una solución moderna con una interfaz gráfica y funcionalidad web, además de almacenar la información en una base de datos. 
+Este proyecto es una simulación básica de un cajero automático escrita en C++. El objetivo es comprender el funcionamiento básico de un cajero automático programado en C++ y explorar los requerimientos necesarios para actualizar su implementación hacia una solución moderna con una interfaz gráfica y funcionalidad web, además de almacenar la información en una base de datos.
 A continuación se describe su estructura, funcionamiento, y lógica.
 
 ## Estructuras
