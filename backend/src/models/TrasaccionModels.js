@@ -7,8 +7,8 @@ const Transaccion = conexion.define(
   {
     idTransaccion: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false,
     },
     idCuenta: {
@@ -25,8 +25,8 @@ const Transaccion = conexion.define(
     },
     fechaTransaccion: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
   },
   {
@@ -34,16 +34,15 @@ const Transaccion = conexion.define(
     timestamps: false,
     indexes: [
       {
+        name: "fk_Transaccion_Cuenta1_idx",
         fields: ["idCuenta"],
       },
     ],
   }
 );
 
-// Definir la relación con Cuenta
-Transaccion.belongsTo(Cuenta, {
-  foreignKey: "idCuenta",
-  onDelete: "NO ACTION",
-  onUpdate: "NO ACTION",
-});
+// Definir la asociación
+Transaccion.belongsTo(Cuenta, { foreignKey: "idCuenta", as: "cuenta" });
+Cuenta.hasMany(Transaccion, { foreignKey: "idCuenta", as: "transacciones" });
+
 module.exports = Transaccion;

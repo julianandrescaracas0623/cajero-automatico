@@ -7,8 +7,8 @@ const Usuario = conexion.define(
   {
     idUsuario: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      autoIncrement: true,
       allowNull: false,
     },
     tipoDocumento: {
@@ -26,7 +26,7 @@ const Usuario = conexion.define(
     correo: {
       type: DataTypes.STRING(100),
       allowNull: false,
-      unique: true,
+      unique: "correo_UNIQUE",
     },
     fechaNacimiento: {
       type: DataTypes.DATE,
@@ -50,8 +50,14 @@ const Usuario = conexion.define(
     timestamps: false,
     indexes: [
       {
+        name: "idx_usuario",
         unique: true,
         fields: ["tipoDocumento", "documento"],
+      },
+      {
+        name: "correo_UNIQUE",
+        unique: true,
+        fields: ["correo"],
       },
     ],
   }

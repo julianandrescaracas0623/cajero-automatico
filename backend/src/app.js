@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas
 app.use("/users", require("./router/userRoutes"));
+app.use("/trasaccion", require("./router/trasaccionRoutes"));
 
 //Conectar a MYSQL
 const startServers = async () => {

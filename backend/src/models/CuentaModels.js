@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const  conexion  = require("../database/conexion");
+const conexion = require("../database/conexion");
 const Usuario = require("./UsuarioModels");
 
 const Cuenta = conexion.define(
@@ -7,14 +7,12 @@ const Cuenta = conexion.define(
   {
     idCuenta: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
       allowNull: false,
     },
     idUsuario: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
     },
     saldo: {
       type: DataTypes.DOUBLE,
@@ -26,6 +24,7 @@ const Cuenta = conexion.define(
     timestamps: false,
     indexes: [
       {
+        name: "idx_usuario",
         unique: true,
         fields: ["idUsuario"],
       },
@@ -33,11 +32,8 @@ const Cuenta = conexion.define(
   }
 );
 
-// Definir la relación con Usuario
-Cuenta.belongsTo(Usuario, {
-  foreignKey: "idUsuario",
-  onDelete: "NO ACTION",
-  onUpdate: "NO ACTION",
-});
+// Definir la asociación
+Cuenta.belongsTo(Usuario, { foreignKey: "idUsuario", as: "usuario" });
+Usuario.hasMany(Cuenta, { foreignKey: "idUsuario", as: "cuentas" });
 
 module.exports = Cuenta;
