@@ -6,7 +6,7 @@ const Cuenta = conexion.define(
   "Cuenta",
   {
     idCuenta: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       primaryKey: true,
       allowNull: false,
     },

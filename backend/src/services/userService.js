@@ -5,11 +5,6 @@ const getUser = async (tipoDocumento, documento, numeroPin) => {
   return await userRepository.getUserById(tipoDocumento, documento, numeroPin);
 };
 
-// Crear un nuevo usuario y su cuenta asociada
-const createUser = async userData => {
-  return await userRepository.createUser(userData);
-};
-
 // Crear un nuevo usuario y una cuenta asociada
 const createUserAccount = async userData => {
   try {
@@ -21,6 +16,5 @@ const createUserAccount = async userData => {
 
 module.exports = {
   getUser,
-  createUser,
   createUserAccount,
 };

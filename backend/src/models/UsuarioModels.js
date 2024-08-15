@@ -41,7 +41,7 @@ const Usuario = conexion.define(
       allowNull: false,
     },
     numeroPin: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(60),
       allowNull: false,
     },
   },

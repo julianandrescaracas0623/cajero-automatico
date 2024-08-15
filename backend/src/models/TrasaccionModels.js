@@ -12,7 +12,7 @@ const Transaccion = conexion.define(
       allowNull: false,
     },
     idCuenta: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
     },
     tipoTransaccion: {

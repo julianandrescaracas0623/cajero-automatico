@@ -1,7 +1,7 @@
 const userService = require("../services/userService");
-
+const jwtToken = require("jsonwebtoken");
 const getUser = async (req, res) => {
-  const { tipoDocumento, documento, numeroPin } = req.params;
+  const { tipoDocumento, documento, numeroPin } = req.body;
 
   // Validaciones de entrada
   if (!tipoDocumento || !documento || !numeroPin) {
@@ -14,7 +14,20 @@ const getUser = async (req, res) => {
   }
 
   try {
-    const user = await userService.getUser(tipoDocumento, documento);
+    const user = await userService.getUser(tipoDocumento, documento, numeroPin);
+    //CREO EL TOKEN DE AUTENTICACION
+    const token = jwtToken.sign(
+      {
+        idUsuario: user.idUsuario,
+        tipoDocumento: user.tipoDocumento,
+        documento: user.documento,
+        numeroPin: user.numeroPin,
+      },
+      process.env.SECRETO,
+      {
+        expiresIn: "1d",
+      }
+    );
 
     if (user) {
       res.status(200).json({
@@ -22,6 +35,7 @@ const getUser = async (req, res) => {
         message: "Usuario encontrado con éxito.",
         status: true,
         user,
+        token,
       });
     } else {
       res.status(404).json({
@@ -47,6 +61,7 @@ const createUser = async (req, res) => {
     nombre,
     correo,
     fechaNacimiento,
+    fechaExpedicion,
     numeroTelefono,
     numeroPin,
   } = req.body;
@@ -58,6 +73,7 @@ const createUser = async (req, res) => {
     !nombre ||
     !correo ||
     !fechaNacimiento ||
+    !fechaExpedicion ||
     !numeroTelefono ||
     !numeroPin
   ) {
@@ -92,11 +108,16 @@ const createUser = async (req, res) => {
   }
 
   // Validación de formato de número PIN
-  if (isNaN(numeroPin) || numeroPin <= 0) {
+  if (
+    isNaN(numeroPin) ||
+    numeroPin <= 0 ||
+    numeroPin.length < 4 ||
+    numeroPin.length > 6
+  ) {
     return res.status(400).json({
       title: "Error",
       message:
-        "El número PIN debe ser un número positivo. Por favor, ingresa un número válido.",
+        "El número PIN debe ser un número positivo con entre 4 y 6 dígitos.",
       status: false,
     });
   }
