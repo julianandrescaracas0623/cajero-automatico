@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const IngresoPin = () => {
+  const navigate = useNavigate();
   const [pin, setPin] = useState(["", "", "", ""]);
 
   //Funcion para crear un nuevo al momento de hacer click se crea un nuevo numero
@@ -27,13 +29,21 @@ const IngresoPin = () => {
       setPin(newPin);
     }
   };
+  const handleMainClick = () => {
+    navigate("/main_menu");
+  };
 
   return (
     <>
-      <motion.div className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-md select-none">
+      <motion.div
+        className="w-full max-w-md mx-auto bg-white p-6 rounded-lg shadow-md select-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="flex justify-center mb-8 ">
           <img
-            src="/img/logo-bancolombia.webp"
+            src="./img/logo-bancolombia.webp"
             alt="Logo de la Empresa"
             className="h-20 w-auto"
           />
@@ -84,7 +94,10 @@ const IngresoPin = () => {
             >
               Borrar
             </button>
-            <button className="h-16 w-full rounded-lg border border-white bg-yellow-500 text-white text-center text-2xl font-bold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+            <button
+              className="h-16 w-full rounded-lg border border-white bg-yellow-500 text-white text-center text-2xl font-bold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              onClick={handleMainClick}
+            >
               Ingresar
             </button>
           </div>
