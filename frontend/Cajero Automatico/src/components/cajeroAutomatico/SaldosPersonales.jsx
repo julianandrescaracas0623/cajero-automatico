@@ -18,9 +18,7 @@ const SaldosPersonales = () => {
             className="h-24 md:h-32 lg:h-40 w-auto"
           />
         </div>
-        <div className="flex flex-1 items-center justify-center">
-          <ChatMessage />
-        </div>
+        <ChatMessage />
       </motion.div>
     </>
   );

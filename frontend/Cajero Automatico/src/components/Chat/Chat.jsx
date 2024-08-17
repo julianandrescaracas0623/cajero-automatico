@@ -1,64 +1,125 @@
+import MoveHorizontalIcon from "../../icons/MoveHorizontalIcon";
+import UserIcon from "../../icons/UserIcon";
 import { useState } from "react";
-import SupersistivePoints from "../../icons/SupersistivePoints";
-import HoraActual from "./HoraActual";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ChatMessage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(prev => !prev);
   };
 
   return (
-    <div className="flex items-start gap-4">
-      {" "}
-      {/* Aumentar el espacio entre los elementos */}
-      <img
-        className="w-12 h-12 rounded-full border-2 border-black"
-        src="../../../public/img/logo.webp"
-        alt="Jese image"
-      />
-      <div className="flex flex-col w-full max-w-[400px] leading-1.5 p-6 border-2 border-black bg-gray-100 rounded-xl">
-        {" "}
-        {/* Ampliar el contenedor del mensaje */}
-        <div className="flex items-center space-x-3 rtl:space-x-reverse">
-          {" "}
-          {/* Ampliar el espacio entre el nombre y la hora */}
-          <span className="text-lg font-semibold text-gray-900">
-            {" "}
-            {/* Aumentar el tamaño del texto */}
-            Asesor Colombiano
-          </span>
-          <HoraActual />
+    <div className="flex flex-col h-screen max-w-md mx-auto bg-gray-50 text-gray-900">
+      <header className="sticky top-0 z-10 flex items-center gap-3 px-4 py-3 bg-white border border-black shadow">
+        <div className="w-8 h-8 border border-black rounded-full overflow-hidden">
+          <img
+            src="../../../public/img/logo.webp"
+            alt="Image"
+            className="object-cover w-full h-full"
+          />
         </div>
-        <p className="text-base font-normal py-3 text-gray-900">
-          {" "}
-          {/* Aumentar el tamaño del texto */}
-          That's awesome. I think our users will really appreciate the
-          improvements.
-        </p>
-        <span className="text-sm font-normal text-gray-500">Delivered</span>
+        <div className="flex-1">
+          <div className="font-medium">Asistente Colombia</div>
+          <div className="text-xs text-gray-500">Online</div>
+        </div>
+        <div className="relative">
+          <button
+            onClick={toggleMenu}
+            className="rounded-full p-2 hover:bg-gray-200 focus:outline-none border border-black"
+          >
+            <MoveHorizontalIcon className="w-4 h-4" />
+          </button>
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: -20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="absolute right-0 mt-2 w-48 bg-white border border-black rounded shadow-lg"
+              >
+                <div className="py-1">
+                  <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">
+                    <UserIcon className="w-4 h-4 mr-2 inline-block" />
+                    Reporte
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </header>
+      <div className="flex-1 overflow-auto">
+        <div className="p-4 space-y-4 border border-black">
+          <AnimatePresence>
+            {/* Mensaje de bienvenida */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-lg p-3 text-sm border border-black"
+            >
+              <p>Hola, soy tu asistente virtual. ¿Cómo puedo ayudarte hoy?</p>
+            </motion.div>
+            {/* Mensajes de información */}
+            <div className="grid grid-cols-2 gap-4">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white rounded-lg p-3 text-sm border border-black"
+              >
+                <p>Tipo de documento:</p>
+                <p className="font-medium">Cédula de ciudadanía</p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white rounded-lg p-3 text-sm border border-black"
+              >
+                <p>Número de documento:</p>
+                <p className="font-medium">123456789</p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white rounded-lg p-3 text-sm border border-black"
+              >
+                <p>Nombre:</p>
+                <p className="font-medium">Juan Pérez</p>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.5 }}
+                className="bg-white rounded-lg p-3 text-sm border border-black"
+              >
+                <p>Saldo total:</p>
+                <p className="font-medium">$1,234.56</p>
+              </motion.div>
+            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-lg p-3 text-sm border border-black"
+            >
+              <p>Fecha actual:</p>
+              <p className="font-medium">{new Date().toLocaleDateString()}</p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-      <button
-        onClick={toggleMenu}
-        className="inline-flex self-center items-center p-3 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none"
-        type="button"
-      >
-        <SupersistivePoints />
-      </button>
-      {isMenuOpen && (
-        <div className="z-10 border-2 border-black bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-48">
-          {" "}
-          {/* Ampliar el tamaño del menú desplegable */}
-          <ul className="py-2 text-sm text-gray-700">
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                Reporte
-              </a>
-            </li>
-          </ul>
-        </div>
-      )}
     </div>
   );
 };
