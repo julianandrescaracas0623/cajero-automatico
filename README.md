@@ -8,65 +8,99 @@ A continuación se describe su estructura, funcionamiento, y lógica.
 - **clientes**: Representa un cliente del banco.
   - `string nombre`: Nombre del cliente.
   - `double sueldo`: Saldo disponible en la cuenta del cliente.
+  - ![1](https://github.com/user-attachments/assets/ae57b303-b2f4-4338-8cc4-d5ea0b02f555)
+
 
 - **tarjetas**: Representa una tarjeta de banco asociada a un cliente.
   - `int usuario`: Número de usuario o identificación de la tarjeta.
   - `int pin`: Número PIN para autenticación.
   - `struct clientes user`: Asociación de la tarjeta con un cliente.
+  - ![2](https://github.com/user-attachments/assets/05aaabe0-14ce-40d0-8bee-8a483d3e0c5c)
+
 
 ## Variables Globales
 
 - **visa[3]**: Arreglo de tres estructuras `tarjetas` que simula tres tarjetas de banco.
 - **v1**: Índice global que almacena el cliente activo.
 - **retiro, saldo, adicionar, anterior, ret2, agr2**: Variables usadas para manejar las operaciones de retiro y depósito.
+- ![3](https://github.com/user-attachments/assets/1a43a502-b24c-47c2-810a-d3c14d66cb78)
 
 ## Funciones y Procedimientos
+
+
+![4](https://github.com/user-attachments/assets/ef3e3c32-8aca-4813-b45f-92c949cd8375)
 
 ### `void cargar()`
 
 Inicializa el arreglo `visa` con datos predefinidos para tres usuarios: `usuario`, `pin`, `nombre`, y `sueldo`. Esto simula la existencia de tres clientes con sus respectivas tarjetas.
 
+![7](https://github.com/user-attachments/assets/46d7a7d9-61c4-496e-9950-426743aadcd3)
+
+
 ### `bool buscar(int bs, bool up)`
 
 Busca un usuario (`up` es `true`) o un PIN (`up` es `false`) en el arreglo `visa`. Devuelve `true` si encuentra el valor buscado y actualiza `v1` con el índice correspondiente.
+
+![8](https://github.com/user-attachments/assets/a5a88462-4dc1-476e-9ccf-c56da2e23c7d)
+
 
 ### `void consultar()`
 
 Muestra la información del cliente activo: nombre, usuario y saldo actual.
 
+![9](https://github.com/user-attachments/assets/898bb8ff-2119-4bb3-818f-eae5b5bb3853)
+
 ### `void retirar()`
 
 Permite al usuario seleccionar una cantidad predefinida para retirar (500, 1000, 2000, 5000 unidades). Llama a `verificar(double rt)` para comprobar si el saldo es suficiente para el retiro.
+
+![10](https://github.com/user-attachments/assets/3ebb5318-c0ca-411f-8bc1-4b0785d4b250)
 
 ### `void verificar(double rt)`
 
 Comprueba si el saldo del cliente es suficiente para realizar el retiro. Si es así, descuenta el monto del saldo y lo actualiza en la estructura `clientes`. Muestra el nuevo saldo al usuario. Si el saldo es insuficiente, muestra un mensaje de error y retorna a la función `retirar()`.
 
+![11](https://github.com/user-attachments/assets/2403c430-5a0d-441a-ab36-e170286f317f)
+
 ### `void agregar()`
 
 Permite al usuario seleccionar una cantidad para agregar a su saldo. Llama a `agregarsaldo(double as)` para realizar la transacción.
+
+![12](https://github.com/user-attachments/assets/74048fa9-e087-4346-a3b4-d5bed3082813)
 
 ### `void agregarsaldo(double as)`
 
 Suma la cantidad ingresada al saldo actual del cliente y actualiza la estructura.
 
+![13](https://github.com/user-attachments/assets/1099ab6c-465f-4ac0-82fc-bcc98318df2c)
+
 ### `void menu()`
 
 Muestra el menú principal con las opciones disponibles: consultar saldo, retirar, agregar saldo, o salir. Permite al usuario elegir una operación a realizar.
+
+![14](https://github.com/user-attachments/assets/7b4f0e0d-d519-4443-bbf7-6d49030f8da6)
 
 ### `void imprimir()`
 
 Imprime los detalles de la transacción actual en un archivo de texto `imprimir.txt`, incluyendo el usuario, nombre, saldo anterior, saldo agregado y saldo actual.
 
+![15](https://github.com/user-attachments/assets/b1ea8bbe-a328-46b3-9b71-666a2e7d3d64)
+
+
 ### Funciones de Manejo de Errores
 
 - **`void error()`**, **`void error2()`**, **`void error3()`**: Muestran mensajes de error personalizados cuando el usuario ingresa una opción inválida o cuando hay algún problema en las operaciones de retiro o adición de saldo.
+- 
+- ![5](https://github.com/user-attachments/assets/6d034447-4af4-49b2-ab1b-17740bacdef0)
 
 ## Lógica del Programa Principal
 
 ### Configuración Regional (`setlocale(LC_CTYPE, "spanish")`)
 
 La función `setlocale(LC_CTYPE, "spanish");` se utiliza para establecer la configuración regional a "spanish". Esto asegura que los caracteres especiales, como acentos y eñes, se manejen correctamente en la entrada y salida de texto en la consola. Es particularmente útil en idiomas que no usan solo caracteres ASCII.
+
+![6](https://github.com/user-attachments/assets/9fa3854c-c37e-4b9e-b8f2-81f23e209046)
+
 
 ### Flujo General
 
@@ -81,6 +115,30 @@ La función `setlocale(LC_CTYPE, "spanish");` se utiliza para establecer la conf
 
 4. **Finalización**:
    - Tras realizar una operación, el programa puede regresar al menú principal para permitir más transacciones o finalizar según la decisión del usuario.
+  
+
+# Identificación de Componentes
+
+## 1. Sistema de Autenticación de Usuarios
+- **Descripción:** Actualmente, la autenticación se realiza mediante la verificación de un número de usuario y un PIN almacenados en estructuras locales. Esta verificación se ejecuta en un entorno limitado a una simulación en consola.
+- **Transformación:** Se debe actualizar el sistema de autenticación para incorporar métodos modernos y más seguros, como la autenticación multifactor (MFA), que incluya no solo el PIN sino también el uso de tokens. Además, la autenticación deberá ser realizada en un entorno seguro con el uso de bases de datos.
+
+## 2. Manejo de las Transacciones
+- **Descripción:** Las operaciones actuales (retiro, depósito, consulta de saldo) se realizan y almacenan en estructuras simples dentro del código del programa, sin persistencia real más allá de la sesión actual.
+- **Transformación:** El sistema debe ser capaz de manejar transacciones en tiempo real y asegurar la persistencia de los datos, utilizando una base de datos para almacenar toda la información de los clientes y las transacciones realizadas. Asimismo, se debe implementar una capa de seguridad que garantice la integridad y autenticidad de cada transacción, así como la capacidad de revertir transacciones en caso de errores.
+
+## 3. Presentación de la Interfaz de Usuario (UI)
+- **Descripción:** Actualmente, la interfaz del cajero automático está basada en texto y se ejecuta en la consola, lo cual limita la interacción y accesibilidad del usuario.
+- **Transformación:** Se debe implementar una interfaz gráfica de usuario (GUI) más moderna y accesible, posiblemente utilizando frameworks como Qt o GTK para aplicaciones de escritorio. La GUI debe ser intuitiva, fácil de usar y proporcionar una experiencia más realista de un cajero automático. Además, la interfaz podría ser adaptada para funcionar en dispositivos móviles y pantallas táctiles, acercando el diseño a cajeros automáticos modernos.
+
+## 4. Conectividad y Funcionalidad Web
+- **Descripción:** El sistema actual no ofrece ninguna capacidad para conectarse a redes ni para ofrecer servicios bancarios remotos.
+- **Transformación:** Se debe habilitar la conectividad para que el cajero automático pueda interactuar con sistemas bancarios en línea, permitiendo a los usuarios realizar transacciones desde cualquier lugar. Esto requerirá la implementación de servicios web para gestionar las transacciones de manera remota, garantizando la seguridad y la disponibilidad del sistema en entornos distribuidos.
+
+## 5. Seguridad y Encriptación
+- **Descripción:** El proyecto actual no incorpora medidas de seguridad avanzadas como el cifrado de datos.
+- **Transformación:** Para proteger la información confidencial de los clientes, se deben implementar técnicas de cifrado de datos en todas las comunicaciones y transacciones, tanto a nivel de la aplicación como en la base de datos. Esto asegurará que la información del usuario esté protegida frente a ataques de interceptación o accesos no autorizados. Además, es necesario aplicar protocolos de seguridad estándar como HTTPS y SSL/TLS para la comunicación segura con los servidores.
+
 
 ## Conclusión
 
