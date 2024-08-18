@@ -7,14 +7,24 @@ const getUser = async (tipoDocumento, documento, numeroPin) => {
 
 // Crear un nuevo usuario y una cuenta asociada
 const createUserAccount = async userData => {
-  try {
-    return await userRepository.createUserAccount(userData);
-  } catch (error) {
-    throw new Error("No se pudo crear el usuario y la cuenta.");
-  }
+  return await userRepository.createUserAccount(userData);
+};
+
+const checkUserExists = async (tipoDocumento, documento, correo) => {
+  return await userRepository.checkIfUserExists(
+    tipoDocumento,
+    documento,
+    correo
+  );
+};
+
+const checkUserDocuments = async (tipoDocumento, documento) => {
+  return await userRepository.checkIfDocumentsExists(tipoDocumento, documento);
 };
 
 module.exports = {
   getUser,
   createUserAccount,
+  checkUserExists,
+  checkUserDocuments,
 };

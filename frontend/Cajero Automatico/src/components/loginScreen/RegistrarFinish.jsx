@@ -1,13 +1,54 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import paisaje from "../../../public/img/bancoInversion.webp";
 import Footer from "../Footer";
+import HelperForm from "../../helpers/HelperForm";
+import { Global } from "../../helpers/Global";
+import MensajeError from "../../components/message/MensajeError";
+import MensajeExitoso from "../../components/message/MensajeExitoso";
 
 const RegistrarFinish = () => {
+  const { form, cambiar } = HelperForm({});
+  const location = useLocation();
+  const formData = location.state.formData;
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
     navigate("/register");
+  };
+  const newRegister = async e => {
+    e.preventDefault();
+
+    const dataToSend = {
+      ...formData,
+      numeroTelefono: form.numeroTelefono,
+      correo: form.correo,
+      nombre: form.nombre,
+      numeroPin: form.numeroPin,
+    };
+
+    try {
+      const response = await fetch(`${Global.url}users/create`, {
+        body: JSON.stringify(dataToSend),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+
+      if (!data.status) {
+        MensajeError({ title: data.title, message: data.message });
+      } else {
+        navigate("/");
+        MensajeExitoso({ title: data.title, message: data.message });
+      }
+    } catch (error) {
+      MensajeError({
+        title: "Error",
+        message: error.message,
+      });
+    }
   };
 
   return (
@@ -41,57 +82,67 @@ const RegistrarFinish = () => {
             </div>
 
             {/* Formulario */}
-            <div className="space-y-6">
-              <input
-                id="number"
-                type="number"
-                placeholder="Número de telefono"
-                required
-                className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
-              />
+            <form onSubmit={newRegister}>
+              <div className="space-y-6">
+                <input
+                  id="number"
+                  name="numeroTelefono"
+                  type="number"
+                  placeholder="Número de telefono"
+                  required
+                  onChange={cambiar}
+                  className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
+                />
 
-              <input
-                id="correo"
-                type="email"
-                placeholder="Correo"
-                required
-                className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
-              />
+                <input
+                  id="correo"
+                  name="correo"
+                  type="email"
+                  placeholder="Correo"
+                  required
+                  className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
+                  onChange={cambiar}
+                />
 
-              <input
-                id="nombre"
-                type="text"
-                placeholder="Nombre Completo"
-                required
-                className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
-              />
+                <input
+                  id="nombre"
+                  name="nombre"
+                  type="text"
+                  placeholder="Nombre Completo"
+                  required
+                  className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
+                  onChange={cambiar}
+                />
 
-              <input
-                id="numeroPin"
-                type="number"
-                placeholder="Número Pin"
-                required
-                className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
-              />
+                <input
+                  id="numeroPin"
+                  name="numeroPin"
+                  type="number"
+                  placeholder="Número Pin"
+                  onChange={cambiar}
+                  required
+                  className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
+                />
 
-              <div className="flex gap-2">
-                <motion.button
-                  className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition duration-200"
-                  onClick={handleRegisterClick}
-                  initial={{ opacity: 1 }}
-                  whileTap={{ opacity: 0.6 }}
-                >
-                  Regresar
-                </motion.button>
-                <motion.button
-                  className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition duration-200"
-                  initial={{ opacity: 1 }}
-                  whileTap={{ opacity: 0.6 }}
-                >
-                  Confirmar
-                </motion.button>
+                <div className="flex gap-2">
+                  <motion.button
+                    className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition duration-200"
+                    onClick={handleRegisterClick}
+                    initial={{ opacity: 1 }}
+                    whileTap={{ opacity: 0.6 }}
+                  >
+                    Regresar
+                  </motion.button>
+                  <motion.button
+                    className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition duration-200"
+                    initial={{ opacity: 1 }}
+                    whileTap={{ opacity: 0.6 }}
+                  >
+                    Confirmar
+                  </motion.button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
           {/* Columna derecha: Imagen */}
           <div className="hidden lg:flex w-full items-center justify-center">

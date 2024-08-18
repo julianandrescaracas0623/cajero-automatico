@@ -16,27 +16,43 @@ const getUserById = async (tipoDocumento, documento, numeroPin) => {
       if (isMatch) {
         return user;
       } else {
-        return res.status(401).json({
-          title: "Número PIN Incorrecto",
-          message: "El número PIN proporcionado es incorrecto.",
-          status: false,
-        });
+        throw new Error("Número PIN Incorrecto");
       }
     } else {
-      return res.status(404).json({
-        title: "Usuario No Encontrado",
-        message: "No se encontró ningún usuario con los datos proporcionados.",
-        status: false,
-      });
+      throw new Error("Usuario No Encontrado");
     }
   } catch (error) {
-    return res.status(500).json({
-      title: "Error Interno del Servidor",
-      message:
-        "Ocurrió un error al intentar obtener el usuario. Por favor, intente nuevamente más tarde.",
-      status: false,
-    });
+    throw new Error(`Error Interno del Servidor: ${error.message}`);
   }
+};
+
+// Verefica si existe el mismo usuario
+const checkIfUserExists = async (tipoDocumento, documento, correo) => {
+  const userByCorreo = await User.findOne({ where: { correo } });
+
+  if (userByCorreo) {
+    return false;
+  }
+
+  const userByDocumento = await User.findOne({
+    where: { tipoDocumento, documento },
+  });
+  if (userByDocumento) {
+    return false;
+  }
+  return true;
+};
+
+const checkIfDocumentsExists = async (tipoDocumento, documento) => {
+  const userByDocumento = await User.findOne({
+    where: { tipoDocumento, documento },
+  });
+  console.log("Usuario encontrado:", userByDocumento);
+
+  if (userByDocumento != null) {
+    return true;
+  }
+  return false;
 };
 
 // Crear un nuevo usuario y una cuenta asociada
@@ -44,12 +60,12 @@ const createUserAccount = async userData => {
   try {
     const hashedPin = await bcrypt.hash(userData.numeroPin, 10);
     const user = await User.create({ ...userData, numeroPin: hashedPin });
-
+    console.log(userData);
     // Generar idCuenta basado en el número de documento
     const idCuenta = generateCuentaId(userData.documento);
 
     // Crear la cuenta asociada
-    await Cuenta.create({
+    const cuenta = await Cuenta.create({
       idCuenta,
       idUsuario: user.idUsuario,
       saldo: 0,
@@ -57,12 +73,7 @@ const createUserAccount = async userData => {
 
     return user;
   } catch (error) {
-    return res.status(500).json({
-      title: "Error Interno del Servidor",
-      message:
-        "Ocurrió un error al intentar crear el usuario y la cuenta. Por favor, intente nuevamente más tarde.",
-      status: false,
-    });
+    throw Error("Error Interno del Servidor");
   }
 };
 
@@ -80,4 +91,6 @@ const generateCuentaId = documento => {
 module.exports = {
   getUserById,
   createUserAccount,
+  checkIfUserExists,
+  checkIfDocumentsExists,
 };

@@ -2,13 +2,45 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import paisaje from "../../../public/img/bancoagricola.webp";
 import Footer from "../Footer";
+import HelperForm from "../../helpers/HelperForm";
+import { Global } from "../../helpers/Global";
+import MensajeError from "../../components/message/MensajeError";
 
 const Registrar = () => {
+  const { form, cambiar } = HelperForm({});
   const navigate = useNavigate();
+  const handleRegisterFinishClick = async e => {
+    e.preventDefault();
+    const inicioRegistro = { ...form };
 
-  const handleRegisterFinishClick = () => {
-    navigate("/registerFinish");
+    try {
+      const response = await fetch(`${Global.url}users/home/validate-home`, {
+        body: JSON.stringify(inicioRegistro),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+
+      if (!data.status) {
+        MensajeError({ title: data.title, message: data.message });
+      } else {
+        navigate("/registerFinish", {
+          state: {
+            formData: inicioRegistro,
+          },
+        });
+      }
+    } catch (error) {
+      MensajeError({
+        title: "Error",
+        message: error.message,
+      });
+      console.log(error.message);
+    }
   };
+
   const handleHomeClick = () => {
     navigate("/");
   };
@@ -51,7 +83,25 @@ const Registrar = () => {
                 <input
                   id="date"
                   type="date"
+                  name="fechaNacimiento"
                   required
+                  onChange={cambiar}
+                  className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                />
+              </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="date"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Fecha de Expedicion
+                </label>
+                <input
+                  id="date"
+                  type="date"
+                  name="fechaExpedicion"
+                  required
+                  onChange={cambiar}
                   className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />
               </div>
@@ -59,18 +109,22 @@ const Registrar = () => {
               <div className="space-y-2">
                 <select
                   id="selection"
+                  name="tipoDocumento"
                   required
                   placeholder="Número de documento"
+                  onChange={cambiar}
                   className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"
                 >
-                  <option value="">Selecciona un documento</option>
-                  <option value="cedula">Cédula de Ciudadanía</option>
-                  <option value="tarjeta">Tarjeta de Identidad</option>
+                  <option>Selecciona un documento</option>
+                  <option>Cédula de Ciudadanía</option>
+                  <option>Tarjeta de Identidad</option>
                 </select>
               </div>
               <input
                 id="number"
+                name="documento"
                 type="number"
+                onChange={cambiar}
                 placeholder="Número de documento"
                 required
                 className="w-full p-4 border-0 rounded-lg ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-400 appearance-none"

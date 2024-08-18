@@ -1,5 +1,7 @@
 const userService = require("../services/userService");
 const jwtToken = require("jsonwebtoken");
+const moment = require("moment");
+
 const getUser = async (req, res) => {
   const { tipoDocumento, documento, numeroPin } = req.body;
 
@@ -66,74 +68,54 @@ const createUser = async (req, res) => {
     numeroPin,
   } = req.body;
 
-  // Validaciones de entrada
-  if (
-    !tipoDocumento ||
-    !documento ||
-    !nombre ||
-    !correo ||
-    !fechaNacimiento ||
-    !fechaExpedicion ||
-    !numeroTelefono ||
-    !numeroPin
-  ) {
-    return res.status(400).json({
-      title: "Error",
-      message:
-        "Todos los campos son obligatorios: tipo de documento, documento, nombre, correo electrónico, fecha de nacimiento, número de teléfono y número PIN.",
-      status: false,
-    });
-  }
-
-  // Validación de formato de correo electrónico
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(correo)) {
-    return res.status(400).json({
-      title: "Error",
-      message:
-        "El formato del correo electrónico es incorrecto. Por favor, ingresa un correo válido.",
-      status: false,
-    });
-  }
-
   // Validación de formato de número de teléfono
   const phoneRegex = /^[0-9]{10,15}$/;
   if (!phoneRegex.test(numeroTelefono)) {
     return res.status(400).json({
       title: "Error",
       message:
-        "El número de teléfono debe tener entre 10 y 15 dígitos. Por favor, verifica el formato.",
+        "El número de teléfono debe contener entre 10 y 15 dígitos. Por favor, verifica que el número ingresado sea correcto.",
       status: false,
     });
   }
 
   // Validación de formato de número PIN
-  if (
-    isNaN(numeroPin) ||
-    numeroPin <= 0 ||
-    numeroPin.length < 4 ||
-    numeroPin.length > 6
-  ) {
+  if (isNaN(numeroPin) || numeroPin.length < 4) {
     return res.status(400).json({
       title: "Error",
       message:
-        "El número PIN debe ser un número positivo con entre 4 y 6 dígitos.",
+        "El número PIN debe ser un número positivo con al menos 4 dígitos. Asegúrate de que el PIN ingresado sea válido.",
       status: false,
     });
   }
 
   try {
-    // Crear el usuario y la cuenta asociada
-    const user = await userService.createUserAccount(req.body);
+    const validationError = await userService.checkUserExists(
+      tipoDocumento,
+      documento,
+      correo
+    );
 
-    res.status(201).json({
-      title: "Éxito",
-      message: "Usuario creado exitosamente.",
-      status: true,
-      user,
-    });
+    if (!validationError) {
+      res.status(400).json({
+        title: "Error de Registro",
+        message:
+          "El usuario con este tipo de documento y número ya está registrado.",
+        status: false,
+      });
+    } else {
+      // Crear el usuario y la cuenta asociada
+      const user = await userService.createUserAccount(req.body);
+
+      res.status(201).json({
+        title: "Éxito",
+        message: "El usuario ha sido creado exitosamente.",
+        status: true,
+        user,
+      });
+    }
   } catch (error) {
-    console.error("Error al crear usuario:", error);
+    console.log(error.message);
     res.status(500).json({
       title: "Error",
       message:
@@ -143,7 +125,80 @@ const createUser = async (req, res) => {
   }
 };
 
+const validateHomeForm = (req, res) => {
+  const { tipoDocumento, documento, fechaNacimiento, fechaExpedicion } =
+    req.body;
+  // Validación de fechas
+  if (
+    !moment(fechaNacimiento, "YYYY-MM-DD", true).isValid() ||
+    !moment(fechaExpedicion, "YYYY-MM-DD", true).isValid()
+  ) {
+    return res.status(400).json({
+      title: "Error",
+      message:
+        "Las fechas proporcionadas no son válidas. Por favor, usa el formato YYYY-MM-DD (año-mes-día).",
+      status: false,
+    });
+  }
+
+  // Validación del tipo de documento
+  const validDocumentTypes = ["Cédula de Ciudadanía", "Tarjeta de Identidad"];
+  if (!validDocumentTypes.includes(tipoDocumento)) {
+    return res.status(400).json({
+      title: "Error",
+      message:
+        "El tipo de documento seleccionado no es válido. Por favor, elige entre 'Cédula de Ciudadanía' o 'Tarjeta de Identidad'.",
+      status: false,
+    });
+  }
+
+  // Validación del número de documento
+  if (!documento || isNaN(documento)) {
+    return res.status(400).json({
+      title: "Error",
+      message:
+        "El número de documento debe ser un valor numérico. Por favor, ingresa un número válido.",
+      status: false,
+    });
+  }
+
+  // Si todas las validaciones pasan
+  return res.status(200).json({
+    status: true,
+  });
+};
+
+const validateTipeDocuments = async (req, res) => {
+  const { tipoDocumento, documento } = req.body;
+
+  if (!tipoDocumento || !documento) {
+    return res.status(400).json({
+      title: "Error",
+      message: "Tipo de documento y número de documento son requeridos.",
+      status: false,
+    });
+  }
+
+  const validationError = await userService.checkUserDocuments(
+    tipoDocumento,
+    documento
+  );
+  if (validationError) {
+    res.status(200).json({
+      status: true,
+    });
+  } else {
+    res.status(400).json({
+      title: "Error",
+      message: "Por favor, revisa si ya tienes una cuenta",
+      status: false,
+    });
+  }
+};
+
 module.exports = {
   getUser,
   createUser,
+  validateHomeForm,
+  validateTipeDocuments,
 };
