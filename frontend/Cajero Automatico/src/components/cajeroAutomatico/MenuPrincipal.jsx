@@ -10,13 +10,21 @@ const MenuPrincipal = () => {
     navigate("/main_menu/balances");
   };
 
+  const handWithdrawBalancesClick = () => {
+    navigate("/main_menu/withdraw-balances");
+  };
+
   const cardData = [
     {
       title: "Mostrar Saldo",
       image: "./img/mostrarSaldo.webp",
       link: handSaldosClick,
     },
-    { title: "Retirar Saldo", image: "./img/retirarSaldo.webp" },
+    {
+      title: "Retirar Saldo",
+      image: "./img/retirarSaldo.webp",
+      link: handWithdrawBalancesClick,
+    },
     { title: "Consignar Saldo", image: "./img/consignarSaldo.webp" },
   ];
 

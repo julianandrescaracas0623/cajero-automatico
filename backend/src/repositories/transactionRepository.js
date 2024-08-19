@@ -1,10 +1,10 @@
 const Transaccion = require("../models/TrasaccionModels");
 const Cuenta = require("../models/CuentaModels");
 
-const getTransaccionesByCuentaId = async idCuenta => {
+const getTransaccionesByCuentaId = async idUsuario => {
   try {
     return await Transaccion.findAll({
-      where: { idCuenta },
+      where: { idUsuario },
     });
   } catch (error) {
     console.error("Error al obtener transacciones:", error);

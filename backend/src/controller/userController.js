@@ -4,7 +4,7 @@ const moment = require("moment");
 
 const getUser = async (req, res) => {
   const { tipoDocumento, documento, numeroPin } = req.body;
-
+  console.log(req.body);
   // Validaciones de entrada
   if (!tipoDocumento || !documento || !numeroPin) {
     return res.status(400).json({
@@ -196,9 +196,37 @@ const validateTipeDocuments = async (req, res) => {
   }
 };
 
+const getUserDocuments = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await userService.getUserDocuments(id);
+    console.log(user);
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "Usuario no encontrado",
+      });
+    }
+    res.status(200).json({
+      status: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      title: "Error",
+      message:
+        "Hubo un problema al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.",
+      status: false,
+    });
+  }
+};
+
 module.exports = {
   getUser,
   createUser,
   validateHomeForm,
   validateTipeDocuments,
+  getUserDocuments,
 };

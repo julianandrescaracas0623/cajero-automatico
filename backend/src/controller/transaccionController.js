@@ -2,10 +2,10 @@ const transaccionService = require("../services/transaccionService");
 
 // Obtener transacciones por ID de cuenta
 const getTransacciones = async (req, res) => {
-  const { idCuenta } = req.params;
+  const { idUsuario } = req.params;
 
   // Validar ID de cuenta
-  if (!idCuenta) {
+  if (!idUsuario) {
     return res.status(400).json({
       title: "ID de Cuenta Requerido",
       status: false,
@@ -15,7 +15,7 @@ const getTransacciones = async (req, res) => {
 
   try {
     const transacciones = await transaccionService.getTransaccionesByCuentaId(
-      idCuenta
+      idUsuario
     );
 
     if (transacciones.length > 0) {

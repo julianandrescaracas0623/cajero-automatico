@@ -7,26 +7,49 @@ import RegistrarFinish from "../components/loginScreen/RegistrarFinish";
 import IngresoPin from "../components/loginScreen/IngresoPin";
 
 //Componentes Privadas
+import LayoutPrivate from "../components/cajeroAutomatico/LayoutPrivate";
 import MenuPrincipal from "../components/cajeroAutomatico/MenuPrincipal";
 import SaldosPersonales from "../components/cajeroAutomatico/SaldosPersonales";
+import { AuthProvider } from "../helpers/AuthProvier";
+import LayoutPublic from "../components/loginScreen/LayoutPublic";
+import RetirarSaldo from "../components/cajeroAutomatico/RetirarSaldo";
+
+//Componenestes Error
+import Error from "../components/error/Error";
 
 const Routing = () => {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          {/*Rutas publicas*/}
-          <Route index element={<LoginScreen />} />
-          <Route path="/pinentry" element={<IngresoPin />} />
-          <Route path="/register" element={<Registro />} />
-          <Route path="/registerFinish" element={<RegistrarFinish />} />
-        </Routes>
+        <AuthProvider>
+          {/* Rutas públicas */}
+          <Routes>
+            <Route path="/" element={<LayoutPublic />}>
+              <Route index element={<LoginScreen />} />
+              <Route path="/pinentry" element={<IngresoPin />} />
+              <Route path="/register" element={<Registro />} />
+              <Route path="/registerFinish" element={<RegistrarFinish />} />
+            </Route>
 
-        <Routes>
-          {/*Rutas privadas*/}
-          <Route path="/main_menu" element={<MenuPrincipal />} />
-          <Route path="/main_menu/balances" element={<SaldosPersonales />} />
-        </Routes>
+            {/* Rutas privadas */}
+            <Route path="/main_menu" element={<LayoutPrivate />}>
+              <Route index element={<MenuPrincipal />} />
+              <Route
+                path="/main_menu/balances"
+                element={<SaldosPersonales />}
+              />
+              <Route
+                path="/main_menu/withdraw-balances"
+                element={<RetirarSaldo />}
+              />
+              <Route
+                path="/main_menu/retired-balances"
+                element={<SaldosPersonales />}
+              />
+            </Route>
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </>
   );

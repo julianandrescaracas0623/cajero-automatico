@@ -26,6 +26,18 @@ const getUserById = async (tipoDocumento, documento, numeroPin) => {
   }
 };
 
+// Obtener un usuario por tipo de documento, documento y número PIN
+const getUserDocuments = async idUsuario => {
+  try {
+    const user = await User.findOne({
+      where: { idUsuario },
+    });
+    return user;
+  } catch (error) {
+    throw new Error(`Error Interno del Servidor: ${error.message}`);
+  }
+};
+
 // Verefica si existe el mismo usuario
 const checkIfUserExists = async (tipoDocumento, documento, correo) => {
   const userByCorreo = await User.findOne({ where: { correo } });
@@ -93,4 +105,5 @@ module.exports = {
   createUserAccount,
   checkIfUserExists,
   checkIfDocumentsExists,
+  getUserDocuments,
 };

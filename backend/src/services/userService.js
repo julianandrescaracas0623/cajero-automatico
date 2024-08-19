@@ -4,7 +4,9 @@ const userRepository = require("../repositories/userRepository");
 const getUser = async (tipoDocumento, documento, numeroPin) => {
   return await userRepository.getUserById(tipoDocumento, documento, numeroPin);
 };
-
+const getUserDocuments = async idUsuario => {
+  return await userRepository.getUserDocuments(idUsuario);
+};
 // Crear un nuevo usuario y una cuenta asociada
 const createUserAccount = async userData => {
   return await userRepository.createUserAccount(userData);
@@ -27,4 +29,5 @@ module.exports = {
   createUserAccount,
   checkUserExists,
   checkUserDocuments,
+  getUserDocuments,
 };

@@ -2,9 +2,9 @@ const transaccionRepository = require("../repositories/transactionRepository");
 const cuentaRepository = require("../repositories/userRepository");
 
 // Obtener todas las transacciones por ID de cuenta
-const getTransaccionesByCuentaId = async idCuenta => {
+const getTransaccionesByCuentaId = async idUsuario => {
   try {
-    return await transaccionRepository.getTransaccionesByCuentaId(idCuenta);
+    return await transaccionRepository.getTransaccionesByCuentaId(idUsuario);
   } catch (error) {
     throw new Error("No se pudieron obtener las transacciones.");
   }
