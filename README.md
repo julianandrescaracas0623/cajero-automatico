@@ -139,6 +139,74 @@ La función `setlocale(LC_CTYPE, "spanish");` se utiliza para establecer la conf
 - **Descripción:** El proyecto actual no incorpora medidas de seguridad avanzadas como el cifrado de datos.
 - **Transformación:** Para proteger la información confidencial de los clientes, se deben implementar técnicas de cifrado de datos en todas las comunicaciones y transacciones, tanto a nivel de la aplicación como en la base de datos. Esto asegurará que la información del usuario esté protegida frente a ataques de interceptación o accesos no autorizados. Además, es necesario aplicar protocolos de seguridad estándar como HTTPS y SSL/TLS para la comunicación segura con los servidores.
 
+# Propuesta de Modernización del Cajero Automático
+
+Este documento describe la propuesta de modernización del cajero automático implementado en C++. La modernización incluye la integración de tecnologías como JavaScript, React y un chatbot para mejorar la funcionalidad, accesibilidad y experiencia del usuario.
+
+## 1. Interfaz Gráfica de Usuario (GUI) con React
+
+### Descripción
+Se desarrollará una interfaz gráfica moderna utilizando React, una biblioteca de JavaScript conocida por su eficiencia y capacidad de crear interfaces de usuario interactivas y dinámicas.
+
+### Características
+- Diseño responsivo que se adapta tanto a pantallas de computadoras como dispositivos móviles.
+- Componentes reutilizables para diferentes funcionalidades como autenticación, consulta de saldo, retiros y depósitos.
+- Mejora de la accesibilidad mediante el uso de interfaces táctiles y elementos interactivos que simulan la experiencia de un cajero automático moderno.
+
+### Beneficios
+- Ofrecerá una experiencia de usuario más intuitiva y atractiva.
+- Facilitará el mantenimiento y la expansión futura del proyecto mediante un código más organizado y modular.
+
+## 2. Conectividad y Funcionalidad Web
+
+### Descripción
+Se integrará la funcionalidad web para permitir a los usuarios realizar transacciones desde cualquier lugar a través de una conexión a internet.
+
+### Características
+- Implementación de servicios web (APIs) para manejar las transacciones y la comunicación entre la aplicación cliente (React) y el servidor.
+- Uso de HTTPS  para garantizar la seguridad en las comunicaciones.
+
+### Beneficios
+- Permitirá a los usuarios acceder a sus cuentas y realizar operaciones bancarias de manera remota.
+- Facilitará la expansión del sistema a diferentes ubicaciones sin necesidad de infraestructura física adicional.
+
+## 3. Base de Datos para Almacenamiento Seguro
+
+### Descripción
+La información de los clientes y las transacciones se almacenará en una base de datos segura para poder llevar un registro de los registros y garantizar una mayor seguridad.
+
+### Características
+- Uso de bases de datos relacionales (como MySQL ) o NoSQL (como MongoDB) según los requerimientos de escalabilidad en nuestro caso estamos usando una base de datos relaciones MySQL.
+- Encriptación de datos sensibles como contraseñas y PINs para proteger la información del usuario.
+
+### Beneficios
+- Asegurará la persistencia y seguridad de los datos a lo largo del tiempo.
+- Facilitará la gestión y consulta de grandes volúmenes de datos de manera eficiente.
+
+## 4. Chatbot para Atención al Cliente
+
+### Descripción
+Se integrará un chatbot dentro de la interfaz de usuario para mejorar la atención al cliente.
+
+### Características
+- Capacidad de responder preguntas frecuentes, guiar al usuario a través de las funciones del cajero y ofrecer soporte.
+
+### Beneficios
+- Mejorará la experiencia del usuario al ofrecer asistencia inmediata y personalizada.
+- Reducirá la carga de trabajo del soporte humano, permitiendo a los usuarios resolver problemas comunes sin intervención directa.
+
+## 5. Autenticación y Seguridad Mejorada
+
+### Descripción
+Se implementará un sistema de autenticación más seguro y moderno.
+
+### Características
+- Autenticación poe medio de un PIN el cual sera necesario para poder ingresar incluyendo tambien la autenticación, que tomara toda la información la cual sera necesaria para poder validar que los usuarios si estan registrados, de lo contrario no podrian ingresar.
+- Encriptación de todas las transacciones y almacenamiento seguro de datos.
+
+### Beneficios
+- Incrementará la seguridad del sistema, reduciendo el riesgo de accesos no autorizados.
+- Mejorará la confianza del usuario en el sistema al garantizar la protección de su información personal y financiera.
 
 ## Conclusión
 
