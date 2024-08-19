@@ -21,15 +21,7 @@ const createTransaccion = async transaccionData => {
   }
 };
 
-// Actualizar el saldo de una cuenta
-const updateSaldo = async (idCuenta, nuevoSaldo) => {
-  try {
-    return await Cuenta.update({ saldo: nuevoSaldo }, { where: { idCuenta } });
-  } catch (error) {
-    console.error("Error al actualizar el saldo de la cuenta:", error);
-    throw new Error("No se pudo actualizar el saldo de la cuenta.");
-  }
-};
+
 
 module.exports = {
   getTransaccionesByCuentaId,

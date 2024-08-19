@@ -16,6 +16,7 @@ import RetirarSaldo from "../components/cajeroAutomatico/RetirarSaldo";
 
 //Componenestes Error
 import Error from "../components/error/Error";
+import ConsignarSaldo from "../components/cajeroAutomatico/ConsignarSaldo";
 
 const Routing = () => {
   return (
@@ -45,6 +46,11 @@ const Routing = () => {
               <Route
                 path="/main_menu/retired-balances"
                 element={<SaldosPersonales />}
+              />
+
+              <Route
+                path="/main_menu/deposit-balance"
+                element={<ConsignarSaldo />}
               />
             </Route>
             <Route path="*" element={<Error />} />

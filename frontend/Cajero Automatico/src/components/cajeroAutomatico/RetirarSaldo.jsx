@@ -1,16 +1,23 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import Footer from "../Footer";
 import ModalAgregarOtroSaldo from "../cajeroAutomatico/ModalAgregarOtroSaldo";
 import { useNavigate } from "react-router-dom";
+import MensajeError from "../message/MensajeError";
+import { Global } from "../../helpers/Global";
 
 const RetirarSaldo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Estado para almacenar la información de la cuenta
+  const [account, setAccount] = useState(null);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const userStore = JSON.parse(localStorage.getItem("usuario"));
 
   const handSaldosClick = () => {
     navigate("/main_menu/retired-balances");
@@ -30,6 +37,45 @@ const RetirarSaldo = () => {
     { title: "$1.000.000", image: "../../../public/img/100.000.000mil.webp" },
   ];
 
+  // Función asíncrona para obtener la información de la cuenta desde la API
+  const accountNumber = async () => {
+    try {
+      // Función asíncrona para obtener la información de la cuenta desde la API
+      const response = await fetch(
+        `${Global.url}account/${userStore.user.idUsuario}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: userStore.token,
+          },
+        }
+      );
+      // Convertir la respuesta en formato JSON
+      const data = await response.json();
+
+      // Verificar el estado de la respuesta y mostrar mensajes de error o éxito
+      if (!data.status) {
+        MensajeError({
+          title: data.title,
+          message: data.message,
+        });
+      } else {
+        setAccount(data); // Update account state
+      }
+    } catch (error) {
+      MensajeError({
+        title: "Error",
+        message: error.message,
+      });
+    }
+  };
+  
+  // useEffect para llamar a accountNumber cuando el componente se monta
+  useEffect(() => {
+    accountNumber();
+  }, []);
+
   return (
     <>
       <motion.div
@@ -47,12 +93,14 @@ const RetirarSaldo = () => {
         </div>
         {/* Información de la Persona */}
         <div className="mt-4 text-center">
-          <p className="text-lg font-semibold">Nombre de la Persona</p>
-          <p className="text-sm text-gray-600">
-            Tarjeta de Identificación: 123456789
+          <p className="text-lg font-semibold">
+            {userStore.user.nombre.toUpperCase()}
           </p>
           <p className="text-sm text-gray-600">
-            numero cuenta: 123456789
+            {`${userStore.user.tipoDocumento}: ${userStore.user.documento}`}
+          </p>
+          <p className="text-sm text-gray-600">
+            Numero Cuenta:{account?.cuenta[0]?.idCuenta}
           </p>
         </div>
         {/* Main Content with Centered Cards */}
