@@ -16,8 +16,17 @@ const RegistrarFinish = () => {
   const handleRegisterClick = () => {
     navigate("/register");
   };
-  const newRegister = async e => {
+  const newRegister = async (e) => {
     e.preventDefault();
+
+    // Validación del número PIN de 4 dígitos
+    if (form.numeroPin.length !== 4) {
+      MensajeError({
+        title: "Error",
+        message: "El número PIN debe ser de 4 dígitos.",
+      });
+      return; // Detenemos el envío del formulario
+    }
 
     const dataToSend = {
       ...formData,

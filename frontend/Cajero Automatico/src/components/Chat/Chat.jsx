@@ -22,7 +22,7 @@ const ChatMessage = () => {
 
   // Función para alternar la apertura/cierre del menú
   const toggleMenu = () => {
-    setIsMenuOpen(prev => !prev);
+    setIsMenuOpen((prev) => !prev);
   };
 
   // Función asíncrona para obtener la información de la cuenta desde la API

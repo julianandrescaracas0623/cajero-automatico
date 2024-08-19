@@ -1,7 +1,7 @@
 const cuentaRepository = require("../repositories/accountRepository");
 
 // Obtener todas las transacciones por ID de cuenta
-const getAccontByCuentaId = async idCuenta => {
+const getAccontByCuentaId = async (idCuenta) => {
   try {
     return await cuentaRepository.getAccontByCuentaId(idCuenta);
   } catch (error) {
@@ -11,16 +11,16 @@ const getAccontByCuentaId = async idCuenta => {
 
 const updateSaldo = async (idCuenta, nuevoSaldo) => {
   try {
-    const verificacionCuenta =
-      cuentaRepository.getAccontByCuentaIdCuenta(idCuenta);
-    
-    let saldoViejo = verificacionCuenta.dataValues.saldo;
+    const cuenta = await cuentaRepository.getAccontByCuentaIdCuenta(idCuenta);
 
-    if (saldoViejo + nuevoSaldo < 0) {
+    const saldoViejo = cuenta.saldo;
+    const saldoActualizado = saldoViejo + nuevoSaldo;
+
+    if (saldoActualizado < 0) {
       return false;
-    } else {
-      return await cuentaRepository.updateSaldo(idCuenta, nuevoSaldo);
     }
+
+    return await cuentaRepository.updateSaldo(idCuenta, saldoActualizado);
   } catch (error) {
     throw new Error("No se pudieron obtener la cuenta.");
   }

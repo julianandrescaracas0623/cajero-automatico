@@ -1,7 +1,7 @@
 const Cuenta = require("../models/CuentaModels");
 const Sequelize = require("sequelize");
 
-const getAccontByCuentaId = async idUsuario => {
+const getAccontByCuentaId = async (idUsuario) => {
   try {
     const valor = await Cuenta.findAll({
       where: { idUsuario },
@@ -12,11 +12,13 @@ const getAccontByCuentaId = async idUsuario => {
   }
 };
 
-const getAccontByCuentaIdCuenta = async idCuenta => {
+const getAccontByCuentaIdCuenta = async (idCuenta) => {
   try {
-    const valor = await Cuenta.findByPk(idCuenta);
-    console.log(valor);
-    return valor;
+    const cuenta = await Cuenta.findByPk(idCuenta);
+    if (!cuenta) {
+      throw new Error("Cuenta no encontrada.");
+    }
+    return cuenta;
   } catch (error) {
     throw new Error("No se pudieron obtener las cuenta.");
   }
@@ -26,7 +28,7 @@ const getAccontByCuentaIdCuenta = async idCuenta => {
 const updateSaldo = async (idCuenta, nuevoSaldo) => {
   try {
     const update = await Cuenta.update(
-      { saldo: Sequelize.literal(`saldo + ${nuevoSaldo}`) },
+      { saldo: nuevoSaldo },
       { where: { idCuenta: idCuenta } }
     );
     return update;
