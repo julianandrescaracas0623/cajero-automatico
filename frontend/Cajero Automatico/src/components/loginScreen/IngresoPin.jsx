@@ -73,7 +73,9 @@ const IngresoPin = () => {
           })
         );
         setnavLink(true);
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 10);
       }
     } catch (error) {
       MensajeError({

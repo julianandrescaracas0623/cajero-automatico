@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import MensajeError from "../message/MensajeError";
-import MensajeExitoso from "../message/MensajeExitoso";
 import { Global } from "../../helpers/Global";
 import Header from "./Header";
 import InfoCard from "./InfoCard";
@@ -50,10 +49,6 @@ const ChatMessage = () => {
           message: data.message,
         });
       } else {
-        MensajeExitoso({
-          title: data.title,
-          message: data.message,
-        });
         setAccount(data); // Update account state
       }
     } catch (error) {

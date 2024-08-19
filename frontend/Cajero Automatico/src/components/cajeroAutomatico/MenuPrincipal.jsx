@@ -13,6 +13,9 @@ const MenuPrincipal = () => {
   const handWithdrawBalancesClick = () => {
     navigate("/main_menu/withdraw-balances");
   };
+  const handDepositBalancesClick = () => {
+    navigate("/main_menu/deposit-balance");
+  };
 
   const cardData = [
     {
@@ -25,7 +28,11 @@ const MenuPrincipal = () => {
       image: "./img/retirarSaldo.webp",
       link: handWithdrawBalancesClick,
     },
-    { title: "Consignar Saldo", image: "./img/consignarSaldo.webp" },
+    {
+      title: "Consignar Saldo",
+      image: "./img/consignarSaldo.webp",
+      link: handDepositBalancesClick,
+    },
   ];
 
   return (

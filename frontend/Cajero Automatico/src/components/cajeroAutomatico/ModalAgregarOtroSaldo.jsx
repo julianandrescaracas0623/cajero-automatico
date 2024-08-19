@@ -1,7 +1,35 @@
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
+import { useState } from "react";
+
+const formatCurrency = value => {
+  // Reemplaza caracteres no numéricos y elimina los puntos existentes
+  const cleanedValue = value.replace(/[^\d]/g, "");
+  const number = Number(cleanedValue);
+
+  if (isNaN(number)) return "";
+
+  // Formatea el valor como moneda colombiana sin decimales si son cero
+  const formattedValue = new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(number);
+
+  return formattedValue;
+};
 
 const ModalAgregarOtroSaldo = ({ onClose }) => {
+  const [saldo, setSaldo] = useState("");
+
+  const handleChange = e => {
+    const value = e.target.value;
+    // Elimina el formato antes de actualizar el estado
+    const unformattedValue = value.replace(/[^\d]/g, "");
+    setSaldo(formatCurrency(unformattedValue));
+  };
+
   return (
     <>
       <motion.div
@@ -15,7 +43,7 @@ const ModalAgregarOtroSaldo = ({ onClose }) => {
         transition={{ duration: 0.3 }}
       >
         <motion.div
-          className="relative p-4 w-full max-w-md max-h-full bg-white rounded-lg shadow"
+          className="relative p-4 w-full max-w-sm md:max-w-md lg:max-w-lg max-h-full bg-white rounded-lg shadow"
           initial={{ y: "-50%", opacity: 0 }}
           animate={{ y: "0%", opacity: 1 }}
           exit={{ y: "50%", opacity: 0 }}
@@ -58,17 +86,20 @@ const ModalAgregarOtroSaldo = ({ onClose }) => {
                   Monto de Saldo
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="saldo"
                   id="saldo"
                   placeholder="Ingrese el monto"
+                  value={saldo}
+                  onChange={handleChange}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 />
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                aria-label="Agregar saldo"
+                className="w-full text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Agregar Saldo
               </button>
@@ -83,4 +114,5 @@ const ModalAgregarOtroSaldo = ({ onClose }) => {
 ModalAgregarOtroSaldo.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
+
 export default ModalAgregarOtroSaldo;
