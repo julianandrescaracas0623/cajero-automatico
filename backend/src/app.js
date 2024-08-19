@@ -33,6 +33,7 @@ app.use(
 // Rutas
 app.use("/users", require("./router/userRoutes"));
 app.use("/trasaccion", require("./router/trasaccionRoutes"));
+app.use("/account", require("./router/accountRoutes"));
 
 //Conectar a MYSQL
 const startServers = async () => {
