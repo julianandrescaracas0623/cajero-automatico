@@ -1,3 +1,4 @@
+const sequelize = require("../database/conexion");
 const Cuenta = require("../models/CuentaModels");
 
 const getAccontByCuentaId = async idUsuario => {
@@ -23,6 +24,35 @@ const getAccontByCuentaIdCuenta = async idCuenta => {
   }
 };
 
+const getCuentaAndUsuarioById = async idCuenta => {
+  try {
+    const result = await sequelize.query(
+      `SELECT usuario.tipoDocumento, usuario.documento, cuenta.idCuenta, usuario.nombre, cuenta.saldo, transaccion.monto
+       FROM cuenta
+       JOIN usuario ON usuario.idUsuario = cuenta.idUsuario
+       INNER JOIN transaccion ON transaccion.idCuenta = cuenta.idCuenta
+       WHERE cuenta.idCuenta = :idCuenta
+       AND transaccion.fechaTransaccion = (
+         SELECT MAX(t2.fechaTransaccion)
+         FROM transaccion t2
+         WHERE t2.idCuenta = cuenta.idCuenta
+       )`,
+      {
+        replacements: { idCuenta },
+        type: sequelize.QueryTypes.SELECT,
+      }
+    );
+
+    if (result.length === 0) {
+      return null; // Devuelve null si no se encuentra la cuenta
+    }
+
+    return result[0]; // Retorna el primer resultado
+  } catch (error) {
+    throw new Error("No se pudieron obtener la cuenta.");
+  }
+};
+
 // Actualizar el saldo de una cuenta
 const updateSaldo = async (idCuenta, nuevoSaldo) => {
   try {
@@ -40,4 +70,5 @@ module.exports = {
   getAccontByCuentaId,
   updateSaldo,
   getAccontByCuentaIdCuenta,
+  getCuentaAndUsuarioById,
 };

@@ -10,16 +10,12 @@ const ChatMessage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Estado para almacenar la información de la cuenta
-  const [account, setAccount] = useState(null);
+  const [accountDetails, setAccountDetails] = useState(null);
+  const [accountNumberDetails, setAccountNumberDetails] = useState(null);
 
   // Hook para obtener la ubicación actual (ruta) desde la URL
   const location = useLocation();
   const currentPath = location.pathname;
-
-  // Mirar cada ruta de cada deposito
-  const dateBalance = currentPath === "/main_menu/balances";
-  const inputRetire = currentPath === "/main_menu/retired-balances";
-  const dateDepost = currentPath === currentPath;
 
   // Obtener datos del localStorage
   const trarLocalStore = JSON.parse(localStorage.getItem("usuario"));
@@ -27,10 +23,13 @@ const ChatMessage = () => {
   // Función para alternar la apertura/cierre del menú
   const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
+  // Función para formatear el saldo
+  const formatSaldo = saldo =>
+    saldo?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") || "0";
+
   // Función asíncrona para obtener la información de la cuenta desde la API
-  const accountNumber = async () => {
+  const fetchAccountDetails = async () => {
     try {
-      // Función asíncrona para obtener la información de la cuenta desde la API
       const response = await fetch(
         `${Global.url}account/${trarLocalStore.user.idUsuario}`,
         {
@@ -41,17 +40,15 @@ const ChatMessage = () => {
           },
         }
       );
-      // Convertir la respuesta en formato JSON
       const data = await response.json();
 
-      // Verificar el estado de la respuesta y mostrar mensajes de error o éxito
       if (!data.status) {
         MensajeError({
           title: data.title,
           message: data.message,
         });
       } else {
-        setAccount(data); // Update account state
+        setAccountDetails(data);
       }
     } catch (error) {
       MensajeError({
@@ -61,28 +58,109 @@ const ChatMessage = () => {
     }
   };
 
-  const handleOtherPath = () => {
-    console.log("hOLA MUNDO");
+  // Función asíncrona para obtener la información de la cuenta con base en el ID de la ruta
+  const fetchAccountNumberDetails = async () => {
+    try {
+      const accountId = currentPath.split("/").pop();
+      const response = await fetch(
+        `${Global.url}account/verefy-accont/${accountId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: trarLocalStore.token,
+          },
+        }
+      );
+      const data = await response.json();
+
+      if (!data.status) {
+        MensajeError({
+          title: data.title,
+          message: data.message,
+        });
+      } else {
+        setAccountNumberDetails(data);
+      }
+      console.log(data);
+    } catch (error) {
+      MensajeError({
+        title: "Error",
+        message: error.message,
+      });
+    }
   };
 
-  // useEffect para llamar a accountNumber cuando el componente se monta
+  // useEffect para llamar a las funciones de obtención de datos según la ruta actual
   useEffect(() => {
-    if (dateBalance || inputRetire) {
-      accountNumber();
+    if (
+      currentPath === "/main_menu/balances" ||
+      currentPath === "/main_menu/retired-balances"
+    ) {
+      fetchAccountDetails();
+    } else if (currentPath.includes("/main_menu/")) {
+      fetchAccountNumberDetails();
     }
+  }, [currentPath]);
 
-    if (dateDepost) {
-      handleOtherPath();
-    }
-  }, [dateBalance, inputRetire, dateDepost]);
+  // Datos de la cuenta a mostrar según la ruta actual
+  const accountInfo = accountDetails
+    ? [
+        {
+          title: "Tipo de documento",
+          content: trarLocalStore.user.tipoDocumento,
+        },
+        {
+          title: "Número de documento",
+          content: trarLocalStore.user.documento,
+        },
+        {
+          title: "Número Cuenta",
+          content: accountDetails?.cuenta[0]?.idCuenta,
+        },
+        { title: "Nombre", content: trarLocalStore.user.nombre.toUpperCase() },
+        {
+          title: "Saldo total",
+          content: `$${formatSaldo(accountDetails?.cuenta[0]?.saldo)}`,
+        },
+      ]
+    : [];
 
-  const saldo = account?.cuenta[0]?.saldo;
-  const numeroCuenta = account?.cuenta[0]?.idCuenta;
+  const accountNumberInfo = accountNumberDetails
+    ? [
+        {
+          title: "Tipo de documento",
+          content: accountNumberDetails?.cuenta.tipoDocumento,
+        },
+        {
+          title: "Número de documento",
+          content: accountNumberDetails?.cuenta?.documento,
+        },
+        {
+          title: "Número Cuenta",
+          content: accountNumberDetails?.cuenta?.idCuenta,
+        },
+        {
+          title: "Nombre",
+          content: accountNumberDetails?.cuenta?.nombre.toUpperCase(),
+        },
+        {
+          title: "Saldo total",
+          content: `$${formatSaldo(accountNumberDetails?.cuenta?.saldo)}`,
+        },
+        {
+          title: "Monto consignado",
+          content: `$${formatSaldo(accountNumberDetails?.cuenta?.monto)}`,
+        },
+      ]
+    : [];
 
-  const formattedSaldo =
-    saldo === undefined || saldo === null || saldo === 0
-      ? "0"
-      : saldo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  // Determinar qué información mostrar según la ruta actual
+  const infoToShow =
+    currentPath === "/main_menu/balances" ||
+    currentPath === "/main_menu/retired-balances"
+      ? accountInfo
+      : accountNumberInfo;
 
   return (
     <div className="flex flex-col h-screen max-w-md mx-auto bg-gray-50 text-gray-900">
@@ -95,66 +173,20 @@ const ChatMessage = () => {
             content=""
           />
           <div className="grid grid-cols-2 gap-4">
-            {dateBalance || inputRetire ? (
-              <>
-                <InfoCard
-                  key="document-type"
-                  title="Tipo de documento"
-                  content={trarLocalStore.user.tipoDocumento}
-                />
-                <InfoCard
-                  key="document-number"
-                  title="Número de documento"
-                  content={trarLocalStore.user.documento}
-                />
-                <InfoCard
-                  key="account-number"
-                  title="Numero Cuenta"
-                  content={numeroCuenta}
-                />
-                <InfoCard
-                  key="name"
-                  title="Nombre"
-                  content={trarLocalStore.user.nombre.toUpperCase()}
-                />
-                <InfoCard
-                  key="total-balance"
-                  title="Saldo total"
-                  content={`$${formattedSaldo}`}
-                />
-              </>
-            ) : (
-              <>
-                <InfoCard
-                  key="document-type"
-                  title="Tipo de documento"
-                  content="23232323232"
-                />
-                <InfoCard
-                  key="document-number"
-                  title="Número de documento"
-                  content="2323232"
-                />
-                <InfoCard
-                  key="account-number"
-                  title="Numero Cuenta"
-                  content="11123213"
-                />
-                <InfoCard key="name" title="Nombre" content="oe" />
-                <InfoCard
-                  key="total-balance"
-                  title="Saldo total"
-                  content={`$232323`}
-                />
-              </>
-            )}
+            {infoToShow.map((info, index) => (
+              <InfoCard
+                key={index} // Usa un índice o una clave única adecuada
+                title={info.title}
+                content={info.content}
+              />
+            ))}
           </div>
           <InfoCard
             key="current-date"
             title="Fecha actual"
             content={new Date().toLocaleDateString()}
           />
-          {inputRetire && (
+          {currentPath === "/main_menu/retired-balances" && (
             <>
               <InfoCard
                 key="input-retire"
@@ -162,7 +194,7 @@ const ChatMessage = () => {
                 content="Detalles de retiro..."
               />
               <InfoCard
-                key="input-retire"
+                key="input-retire-saldo"
                 title="Saldo Retiro"
                 content="Detalles de retiro..."
               />

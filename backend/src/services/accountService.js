@@ -17,6 +17,14 @@ const getAccontId = async idCuenta => {
   }
 };
 
+const getCuentaAndUsuarioById = async idCuenta => {
+  try {
+    return await cuentaRepository.getCuentaAndUsuarioById(idCuenta);
+  } catch (error) {
+    throw new Error("No se pudieron obtener la cuenta.");
+  }
+};
+
 const updateSaldo = async (idCuenta, nuevoSaldo) => {
   try {
     const cuenta = await cuentaRepository.getAccontByCuentaIdCuenta(idCuenta);
@@ -34,4 +42,4 @@ const updateSaldo = async (idCuenta, nuevoSaldo) => {
   }
 };
 
-module.exports = { getAccontByCuentaId, updateSaldo, getAccontId };
+module.exports = { getAccontByCuentaId, updateSaldo, getAccontId, getCuentaAndUsuarioById};

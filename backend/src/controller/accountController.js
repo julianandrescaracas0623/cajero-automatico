@@ -1,4 +1,5 @@
 const accountService = require("../services/accountService");
+const transaccionService = require("../services/transaccionService");
 
 const getAccount = async (req, res) => {
   const { idCuenta } = req.params;
@@ -42,8 +43,8 @@ const getAccount = async (req, res) => {
 
 const UpdateSaldo = async (req, res) => {
   try {
-    const { idCuenta, saldo } = req.body;
-    console.log(idCuenta, saldo);
+    const { idCuenta, saldo, tipoTransaccion } = req.body;
+
     if (!idCuenta || !saldo) {
       return res
         .status(400)
@@ -78,6 +79,30 @@ const UpdateSaldo = async (req, res) => {
 
     const numeroCuenta = await accountService.getAccontId(idCuenta);
 
+    if (!numeroCuenta) {
+      return res.status(404).json({
+        title: "Cuenta no encontrada",
+        message:
+          "No encontramos una cuenta con ese número. Por favor, verifica el número e inténtalo de nuevo.",
+        status: false,
+      });
+    }
+
+    const createTransaccion = await transaccionService.createTransaccion({
+      idCuenta,
+      tipoTransaccion: "Consignar Saldo",
+      monto: saldo,
+    });
+
+    if (!createTransaccion) {
+      return res.status(404).json({
+        title: "Error en la trasaccion",
+        message:
+          "No se pudo registrar la transacción. Por favor, inténtelo de nuevo más tarde.",
+        status: false,
+      });
+    }
+
     // Responder con éxito
     res.status(200).json({
       title: "Saldo actualizado",
@@ -95,4 +120,37 @@ const UpdateSaldo = async (req, res) => {
   }
 };
 
-module.exports = { getAccount, UpdateSaldo };
+const getNumberAccount = async (req, res) => {
+  try {
+    const { idCuenta } = req.params;
+
+    const numeroCuenta = 
+    await accountService.getCuentaAndUsuarioById(idCuenta);
+
+    if (!numeroCuenta) {
+      return res.status(404).json({
+        title: "Cuenta no encontrada",
+        message:
+          "No encontramos una cuenta con ese número. Por favor, verifica el número e inténtalo de nuevo.",
+        status: false,
+      });
+    }
+
+    // Responder con éxito
+    res.status(200).json({
+      title: "Cuenta encontrada",
+      message: "¡Listo! Encontramos tu cuenta.",
+      status: true,
+      cuenta: numeroCuenta,
+    });
+  } catch (error) {
+    res.status(500).json({
+      title: "Error Interno del Servidor",
+      message:
+        "Ocurrió un error al intentar obtener las Cuenta. Por favor, intente nuevamente más tarde.",
+      status: false,
+    });
+  }
+};
+
+module.exports = { getAccount, UpdateSaldo, getNumberAccount };
