@@ -2,7 +2,7 @@ const accountService = require("../services/accountService");
 
 const getAccount = async (req, res) => {
   const { idCuenta } = req.params;
-  console.log(idCuenta);
+
   // Validar ID de cuenta
   if (!idCuenta) {
     return res.status(400).json({
@@ -43,29 +43,47 @@ const getAccount = async (req, res) => {
 const UpdateSaldo = async (req, res) => {
   try {
     const { idCuenta, saldo } = req.body;
-
+    console.log(idCuenta, saldo);
     if (!idCuenta || !saldo) {
       return res
         .status(400)
         .json({ title: "Faltan parámetros necesarios", status: false });
     }
-    const saldoContado = await accountService.updateSaldo(idCuenta, saldo);
+
+    const saldoNumerico = parseFloat(saldo);
+    if (saldoNumerico < 0) {
+      return res.status(400).json({
+        title: "Saldo inválido",
+        message:
+          "El saldo proporcionado no es un número válido. Por favor, ingrese un número válido.",
+        status: false,
+      });
+    }
+
+    const saldoContado = await accountService.updateSaldo(
+      idCuenta,
+      saldoNumerico
+    );
 
     // Verificar el resultado de la actualización
     if (saldoContado == false) {
       // Si no se actualizó ninguna fila
       return res.status(404).json({
         title: "Cuenta no encontrada",
-        message: "No se encontró ninguna cuenta con el id proporcionado.",
+        message:
+          "El número de cuenta proporcionado no existe. Por favor, verifique el número e intente nuevamente.",
         status: false,
       });
     }
+
+    const numeroCuenta = await accountService.getAccontId(idCuenta);
 
     // Responder con éxito
     res.status(200).json({
       title: "Saldo actualizado",
       message: "El saldo se actualizó correctamente.",
       status: true,
+      cuenta: numeroCuenta,
     });
   } catch (error) {
     res.status(500).json({

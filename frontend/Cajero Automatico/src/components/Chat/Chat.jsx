@@ -15,15 +15,17 @@ const ChatMessage = () => {
   // Hook para obtener la ubicación actual (ruta) desde la URL
   const location = useLocation();
   const currentPath = location.pathname;
+
+  // Mirar cada ruta de cada deposito
+  const dateBalance = currentPath === "/main_menu/balances";
   const inputRetire = currentPath === "/main_menu/retired-balances";
+  const dateDepost = currentPath === currentPath;
 
   // Obtener datos del localStorage
   const trarLocalStore = JSON.parse(localStorage.getItem("usuario"));
 
   // Función para alternar la apertura/cierre del menú
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
   // Función asíncrona para obtener la información de la cuenta desde la API
   const accountNumber = async () => {
@@ -59,12 +61,24 @@ const ChatMessage = () => {
     }
   };
 
+  const handleOtherPath = () => {
+    console.log("hOLA MUNDO");
+  };
+
   // useEffect para llamar a accountNumber cuando el componente se monta
   useEffect(() => {
-    accountNumber();
-  }, []);
+    if (dateBalance || inputRetire) {
+      accountNumber();
+    }
 
-  const saldo = account?.cuenta?.saldo;
+    if (dateDepost) {
+      handleOtherPath();
+    }
+  }, [dateBalance, inputRetire, dateDepost]);
+
+  const saldo = account?.cuenta[0]?.saldo;
+  const numeroCuenta = account?.cuenta[0]?.idCuenta;
+
   const formattedSaldo =
     saldo === undefined || saldo === null || saldo === 0
       ? "0"
@@ -81,31 +95,59 @@ const ChatMessage = () => {
             content=""
           />
           <div className="grid grid-cols-2 gap-4">
-            <InfoCard
-              key="document-type"
-              title="Tipo de documento"
-              content={trarLocalStore.user.tipoDocumento}
-            />
-            <InfoCard
-              key="document-number"
-              title="Número de documento"
-              content={trarLocalStore.user.documento}
-            />
-            <InfoCard
-              key="account-number"
-              title="Numero Cuenta"
-              content="11123213"
-            />
-            <InfoCard
-              key="name"
-              title="Nombre"
-              content={trarLocalStore.user.nombre.toUpperCase()}
-            />
-            <InfoCard
-              key="total-balance"
-              title="Saldo total"
-              content={`$${formattedSaldo}`}
-            />
+            {dateBalance || inputRetire ? (
+              <>
+                <InfoCard
+                  key="document-type"
+                  title="Tipo de documento"
+                  content={trarLocalStore.user.tipoDocumento}
+                />
+                <InfoCard
+                  key="document-number"
+                  title="Número de documento"
+                  content={trarLocalStore.user.documento}
+                />
+                <InfoCard
+                  key="account-number"
+                  title="Numero Cuenta"
+                  content={numeroCuenta}
+                />
+                <InfoCard
+                  key="name"
+                  title="Nombre"
+                  content={trarLocalStore.user.nombre.toUpperCase()}
+                />
+                <InfoCard
+                  key="total-balance"
+                  title="Saldo total"
+                  content={`$${formattedSaldo}`}
+                />
+              </>
+            ) : (
+              <>
+                <InfoCard
+                  key="document-type"
+                  title="Tipo de documento"
+                  content="23232323232"
+                />
+                <InfoCard
+                  key="document-number"
+                  title="Número de documento"
+                  content="2323232"
+                />
+                <InfoCard
+                  key="account-number"
+                  title="Numero Cuenta"
+                  content="11123213"
+                />
+                <InfoCard key="name" title="Nombre" content="oe" />
+                <InfoCard
+                  key="total-balance"
+                  title="Saldo total"
+                  content={`$232323`}
+                />
+              </>
+            )}
           </div>
           <InfoCard
             key="current-date"

@@ -13,6 +13,7 @@ const MenuPrincipal = () => {
   const handWithdrawBalancesClick = () => {
     navigate("/main_menu/withdraw-balances");
   };
+  
   const handDepositBalancesClick = () => {
     navigate("/main_menu/deposit-balance");
   };
