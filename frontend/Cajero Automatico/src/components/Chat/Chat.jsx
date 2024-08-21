@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import MensajeError from "../message/MensajeError";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Global } from "../../helpers/Global";
+import MensajeError from "../message/MensajeError";
+import MensajeDialog from "../message/MensajeDialog";
 import Header from "./Header";
 import InfoCard from "./InfoCard";
 
@@ -13,6 +14,8 @@ const ChatMessage = () => {
   const [accountDetails, setAccountDetails] = useState(null);
   const [accountNumberDetails, setAccountNumberDetails] = useState(null);
 
+  const navigate = useNavigate();
+
   // Hook para obtener la ubicación actual (ruta) desde la URL
   const location = useLocation();
   const currentPath = location.pathname;
@@ -21,14 +24,15 @@ const ChatMessage = () => {
   const trarLocalStore = JSON.parse(localStorage.getItem("usuario"));
 
   // Función para alternar la apertura/cierre del menú
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
   // Función para formatear el saldo
-  const formatSaldo = (saldo) =>
+  const formatSaldo = saldo =>
     saldo?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") || "0";
 
+  // Obtener la ruta anterior de retirar saldo
   const formData = location?.state?.amount;
-  console.log(formData);
+
   // Función asíncrona para obtener la información de la cuenta desde la API
   const fetchAccountDetails = async () => {
     try {
@@ -84,7 +88,56 @@ const ChatMessage = () => {
       } else {
         setAccountNumberDetails(data);
       }
-      console.log(data);
+    } catch (error) {
+      MensajeError({
+        title: "Error",
+        message: error.message,
+      });
+    }
+  };
+
+  const fetchAccountWithdraw = async () => {
+    try {
+      const saldoActual = accountDetails?.cuenta[0].saldo;
+      const saldoDeposito = formData;
+
+      if (saldoDeposito > saldoActual) {
+        return MensajeError({
+          title: "Saldo Insuficiente",
+          message: "El monto a retirar no puede ser mayor que el saldo actual.",
+        });
+      }
+
+      const dateSet = {
+        saldo: formData,
+        idCuenta: accountDetails?.cuenta[0]?.idCuenta,
+      };
+
+      const response = await fetch(`${Global.url}account/update-withdraw`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: trarLocalStore.token,
+        },
+        body: JSON.stringify(dateSet),
+      });
+
+      const data = await response.json();
+
+      if (!data.status) {
+        MensajeError({
+          title: data.title,
+          message: data.message,
+        });
+      } else {
+        await MensajeDialog({
+          title: "¿Estás seguro de retirar",
+          text: "Si estás seguro de retirar, por favor verifica muy bien los datos.",
+          titleDate: data.title,
+          textDate: data.message,
+        });
+        navigate("/");
+      }
     } catch (error) {
       MensajeError({
         title: "Error",
@@ -191,16 +244,21 @@ const ChatMessage = () => {
           {currentPath === "/main_menu/retired-balances" && (
             <>
               <InfoCard
-                key="input-retire"
-                title="Fecha Retiro"
-                content="Detalles de retiro..."
-              />
-              <InfoCard
                 key="input-retire-saldo"
                 title="Saldo Retiro"
-                content="Detalles de retiro..."
+                content={`$${formatSaldo(formData)}`}
               />
-              <button className="mt-2 w-full px-4 py-2 bg-yellow-500 text-black rounded hover:bg-yellow-600">
+
+              <InfoCard
+                key="input-retire"
+                title="Fecha Retiro"
+                content={new Date().toLocaleDateString()}
+              />
+              <button
+                className="mt-2 w-full px-4 py-2 bg-yellow-500 text-black rounded hover:bg-yellow-600"
+                type="submit"
+                onClick={fetchAccountWithdraw}
+              >
                 Realizar Retiro
               </button>
             </>

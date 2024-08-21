@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import MoveHorizontalIcon from "../../icons/MoveHorizontalIcon";
-import UserIcon from "../../icons/UserIcon";
+import PdfIcons from "../../icons/PdfIcons";
+import ExitIcon from "../../icons/ExitIcons";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -31,14 +32,14 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
           >
             <div className="py-1">
               <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">
-                <UserIcon className="w-4 h-4 mr-2 inline-block" />
+                <PdfIcons className="w-2 h-2 mr-2 inline-block" />
                 Reporte
               </button>
               <button
                 className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
                 onClick={handleHomeClick}
               >
-                <UserIcon className="w-4 h-4 mr-2 inline-block" />
+                <ExitIcon className="w-2 h-2 mr-2 inline-block" />
                 Salir
               </button>
             </div>

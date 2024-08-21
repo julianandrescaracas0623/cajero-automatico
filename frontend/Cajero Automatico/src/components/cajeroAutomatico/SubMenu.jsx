@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import UserIcon from "../../icons/UserIcon";
 import { useNavigate } from "react-router-dom";
+import ExitIcon from "../../icons/ExitIcons";
+import MoveHorizontalIcon from "../../icons/MoveHorizontalIcon";
 import PropTypes from "prop-types";
 
 const SubMenu = ({ isMenuOpen, toggleMenu }) => {
@@ -10,6 +11,7 @@ const SubMenu = ({ isMenuOpen, toggleMenu }) => {
     localStorage.removeItem("usuario");
     localStorage.clear();
     navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -17,7 +19,9 @@ const SubMenu = ({ isMenuOpen, toggleMenu }) => {
       <button
         onClick={toggleMenu}
         className="rounded-full p-2 hover:bg-gray-200 focus:outline-none border border-black"
-      ></button>
+      >
+        <MoveHorizontalIcon className="w-4 h-4" />
+      </button>
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -33,7 +37,7 @@ const SubMenu = ({ isMenuOpen, toggleMenu }) => {
                 className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
                 onClick={handleHomeClick}
               >
-                <UserIcon className="w-4 h-4 mr-2 inline-block" />
+                <ExitIcon className="w-4 h-4 mr-2 inline-block" />
                 Salir
               </button>
             </div>

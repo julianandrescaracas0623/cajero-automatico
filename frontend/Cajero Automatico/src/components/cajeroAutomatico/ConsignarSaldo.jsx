@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import Footer from "../Footer";
 import { useEffect, useState } from "react";
 import { Global } from "../../helpers/Global";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +6,8 @@ import MensajeError from "../message/MensajeError";
 import MensajeDialog from "../message/MensajeDialog";
 import HelperForm from "../../helpers/HelperForm";
 import formatoPesos from "../funciones/formatoPesos";
+import Footer from "../Footer";
+
 
 const ConsignarSaldo = () => {
   // Estado para almacenar la información de la cuenta

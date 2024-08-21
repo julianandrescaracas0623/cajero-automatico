@@ -1,7 +1,7 @@
 const cuentaRepository = require("../repositories/accountRepository");
 
 // Obtener todas las transacciones por ID de cuenta
-const getAccontByCuentaId = async (idCuenta) => {
+const getAccontByCuentaId = async idCuenta => {
   try {
     return await cuentaRepository.getAccontByCuentaId(idCuenta);
   } catch (error) {
@@ -9,7 +9,7 @@ const getAccontByCuentaId = async (idCuenta) => {
   }
 };
 
-const getAccontId = async (idCuenta) => {
+const getAccontId = async idCuenta => {
   try {
     return await cuentaRepository.getAccontByCuentaIdCuenta(idCuenta);
   } catch (error) {
@@ -17,7 +17,7 @@ const getAccontId = async (idCuenta) => {
   }
 };
 
-const getCuentaAndUsuarioById = async (idCuenta) => {
+const getCuentaAndUsuarioById = async idCuenta => {
   try {
     return await cuentaRepository.getCuentaAndUsuarioById(idCuenta);
   } catch (error) {

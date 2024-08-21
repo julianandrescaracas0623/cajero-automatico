@@ -44,7 +44,7 @@ const getCuentaAndUsuarioById = async idCuenta => {
     );
 
     if (result.length === 0) {
-      return null; // Devuelve null si no se encuentra la cuenta
+      return null;
     }
 
     return result[0]; // Retorna el primer resultado
