@@ -1,33 +1,26 @@
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import { useState } from "react";
-
-const formatCurrency = value => {
-  // Reemplaza caracteres no numéricos y elimina los puntos existentes
-  const cleanedValue = value.replace(/[^\d]/g, "");
-  const number = Number(cleanedValue);
-
-  if (isNaN(number)) return "";
-
-  // Formatea el valor como moneda colombiana sin decimales si son cero
-  const formattedValue = new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(number);
-
-  return formattedValue;
-};
+import formatoPesos from "../funciones/formatoPesos";
+import { useNavigate } from "react-router-dom";
 
 const ModalAgregarOtroSaldo = ({ onClose }) => {
   const [saldo, setSaldo] = useState("");
+  const navigate = useNavigate();
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const value = e.target.value;
     // Elimina el formato antes de actualizar el estado
     const unformattedValue = value.replace(/[^\d]/g, "");
-    setSaldo(formatCurrency(unformattedValue));
+    setSaldo(formatoPesos(unformattedValue));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Navega a la nueva ruta con el valor del saldo
+    navigate("/main_menu/retired-balances", {
+      state: { amount: saldo.replace(/[^\d]/g, "") },
+    });
   };
 
   return (
@@ -77,7 +70,7 @@ const ModalAgregarOtroSaldo = ({ onClose }) => {
             </button>
           </div>
           <div className="p-4">
-            <form className="space-y-4" action="#">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="saldo"

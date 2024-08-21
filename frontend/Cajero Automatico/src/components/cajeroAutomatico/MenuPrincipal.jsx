@@ -2,9 +2,13 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Card from "../Card/Card";
 import Footer from "../Footer";
+import SubMenu from "./SubMenu";
+import { useState } from "react";
 
 const MenuPrincipal = () => {
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   const handSaldosClick = () => {
     navigate("/main_menu/balances");
@@ -13,7 +17,7 @@ const MenuPrincipal = () => {
   const handWithdrawBalancesClick = () => {
     navigate("/main_menu/withdraw-balances");
   };
-  
+
   const handDepositBalancesClick = () => {
     navigate("/main_menu/deposit-balance");
   };
@@ -49,6 +53,7 @@ const MenuPrincipal = () => {
           alt="Company Logo"
           className="h-40 w-auto"
         />
+        <SubMenu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
       </div>
       {/* Main Content with Centered Cards */}
       <div className="flex flex-col items-center w-full p-8 space-y-6 flex-grow">

@@ -19,22 +19,47 @@ const RetirarSaldo = () => {
 
   const userStore = JSON.parse(localStorage.getItem("usuario"));
 
-  const handSaldosClick = () => {
-    navigate("/main_menu/retired-balances");
+  const handSaldo20milClick = () => {
+    navigate("/main_menu/retired-balances", {
+      state: { amount: 20000 },
+    });
   };
-
+  const handSaldos50milClick = () => {
+    navigate("/main_menu/retired-balances", {
+      state: { amount: 50000 },
+    });
+  };
+  const handSaldos100milClick = () => {
+    navigate("/main_menu/retired-balances", {
+      state: { amount: 100000 },
+    });
+  };
+  const handSaldos100millonClick = () => {
+    navigate("/main_menu/retired-balances", {
+      state: { amount: 1000000 },
+    });
+  };
   const cardData = [
     {
-      title: "$20.0000",
+      title: "$20.000",
       image: "../../../public/img/20mil.jpg",
-      link: handSaldosClick,
+      link: handSaldo20milClick,
     },
     {
       title: "$50.000",
       image: "../../../public/img/50mil.jpg",
+      link: handSaldos50milClick,
     },
-    { title: "$100.000", image: "../../../public/img/100mil.webp" },
-    { title: "$1.000.000", image: "../../../public/img/100.000.000mil.webp" },
+    {
+      title: "$100.000",
+      image: "../../../public/img/100mil.webp",
+      link: handSaldos100milClick,
+    },
+    {
+      title: "$1.000.000",
+      image: "../../../public/img/100.000.000mil.webp",
+      link: handSaldos100millonClick,
+    },
   ];
 
   // Función asíncrona para obtener la información de la cuenta desde la API
@@ -70,7 +95,7 @@ const RetirarSaldo = () => {
       });
     }
   };
-  
+
   // useEffect para llamar a accountNumber cuando el componente se monta
   useEffect(() => {
     accountNumber();

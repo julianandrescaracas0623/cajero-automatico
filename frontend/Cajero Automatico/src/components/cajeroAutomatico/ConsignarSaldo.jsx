@@ -6,11 +6,21 @@ import { useNavigate } from "react-router-dom";
 import MensajeError from "../message/MensajeError";
 import MensajeDialog from "../message/MensajeDialog";
 import HelperForm from "../../helpers/HelperForm";
+import formatoPesos from "../funciones/formatoPesos";
 
 const ConsignarSaldo = () => {
   // Estado para almacenar la información de la cuenta
   const [account, setAccount] = useState(null);
   const { form, cambiar } = HelperForm({});
+  const [saldo, setSaldo] = useState("");
+
+  // Maneja el cambio en el campo del saldo con formato de pesos
+  const handleChange = (e) => {
+    const value = e.target.value;
+    // Elimina el formato antes de actualizar el estado
+    const unformattedValue = value.replace(/[^\d]/g, "");
+    setSaldo(formatoPesos(unformattedValue));
+  };
 
   const userStore = JSON.parse(localStorage.getItem("usuario"));
   const navigate = useNavigate();
@@ -49,13 +59,15 @@ const ConsignarSaldo = () => {
     }
   };
 
-  const updateSaldos = async e => {
+  const updateSaldos = async (e) => {
     e.preventDefault();
 
     try {
-      const updateData = { ...form };
+      const updateData = {
+        ...form,
+        saldo: saldo.replace(/[^\d]/g, ""),
+      };
       console.log(updateData);
-
       const responsePut = await fetch(`${Global.url}account/update-accont`, {
         body: JSON.stringify(updateData),
         method: "PUT",
@@ -138,8 +150,9 @@ const ConsignarSaldo = () => {
           <input
             id="saldo"
             name="saldo"
-            onChange={cambiar}
-            type="number"
+            value={saldo}
+            onChange={handleChange}
+            type="text"
             placeholder="Número de Saldo"
             required
             className="w-1/3 p-4 border border-gray-300 rounded-lg focus:border-blue-400"

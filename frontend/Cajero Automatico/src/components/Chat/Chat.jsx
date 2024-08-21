@@ -21,12 +21,14 @@ const ChatMessage = () => {
   const trarLocalStore = JSON.parse(localStorage.getItem("usuario"));
 
   // Función para alternar la apertura/cierre del menú
-  const toggleMenu = () => setIsMenuOpen(prev => !prev);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   // Función para formatear el saldo
-  const formatSaldo = saldo =>
+  const formatSaldo = (saldo) =>
     saldo?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") || "0";
 
+  const formData = location?.state?.amount;
+  console.log(formData);
   // Función asíncrona para obtener la información de la cuenta desde la API
   const fetchAccountDetails = async () => {
     try {
