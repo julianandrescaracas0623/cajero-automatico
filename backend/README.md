@@ -189,7 +189,7 @@ En esta sección, se describen las medidas de seguridad implementadas en la apli
 
 ### helmet.contentSecurityPolicy()
 - **Descripción**: Controla qué recursos pueden ser cargados por el navegador para prevenir ataques XSS.
-- **Más información**: [Content Security Policy - Helmet](https://helmetjs.github.io/docs/csp/)
+- **Más información**: [Content Security Policy - Helmet](https://helmetjs.github.io/)
 
 ### Sequelize
 - **Descripción**: ORM (Object-Relational Mapping) que facilita la interacción con bases de datos SQL. Permite realizar consultas de manera segura mediante el uso de consultas preparadas y parametrizadas para evitar inyecciones SQL.
