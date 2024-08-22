@@ -169,9 +169,9 @@ El modelo `Transaccion` representa una transacción asociada a una cuenta. Tiene
 - **Cuenta** pertenece a un **Usuario**.
 - **Cuenta** puede tener muchas **Transacciones**.
 - **Transaccion** pertenece a una **Cuenta**.
-- 
-Para más detalles sobre la configuración y uso de Sequelize, consulta la [documentación oficial de Sequelize](https://sequelize.org/).
 
+
+Para más detalles sobre la configuración y uso de Sequelize, consulta la [documentación oficial de Sequelize](https://sequelize.org/).
 
 ## Contribución
 
