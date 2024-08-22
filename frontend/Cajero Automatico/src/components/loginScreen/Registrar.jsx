@@ -14,7 +14,7 @@ const Registrar = () => {
     const inicioRegistro = { ...form };
 
     try {
-      const response = await fetch(`${Global.url}users/home/validate-home`, {
+      const response = await fetch(`${Global.url}users/create/validate-home`, {
         body: JSON.stringify(inicioRegistro),
         method: "POST",
         headers: {

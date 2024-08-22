@@ -39,10 +39,12 @@ app.use("/account", require("./router/accountRoutes"));
 const startServers = async () => {
   try {
     await conexion.sync({ force: false });
+    console.log("Conectado a la base de datos..."); //verificar si la conexion funciona
     app.listen(port, () => {
       console.log(`Servidor corriendo en el puerto: ${port}`);
     });
   } catch (error) {
+    console.error("Error al iniciar el servidor:", error); //mostrar cual es el error
     process.exit(1);
   }
 };
