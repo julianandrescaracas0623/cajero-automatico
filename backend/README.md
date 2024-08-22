@@ -167,17 +167,78 @@ El modelo `Transaccion` representa una transacción asociada a una cuenta. Tiene
 - **Cuenta** puede tener muchas **Transacciones**.
 - **Transaccion** pertenece a una **Cuenta**.
 
+# Consideraciones de Seguridad
 
-Para más detalles sobre la configuración y uso de Sequelize, consulta la [documentación oficial de Sequelize](https://sequelize.org/).
+En esta sección, se describen las medidas de seguridad implementadas en la aplicación Express y se proporcionan enlaces a la documentación relevante para cada aspecto de seguridad.
 
-## Contribución
+## CORS (Cross-Origin Resource Sharing)
 
-Si deseas contribuir a este proyecto, por favor, sigue las directrices del archivo `CONTRIBUTING.md`.
+**Descripción**: Controla qué orígenes pueden acceder a los recursos de tu aplicación.  
+**Enlace**: [CORS - npm](https://www.npmjs.com/package/cors)
 
-## Licencia
+## Helmet
 
-Este proyecto está licenciado bajo [nombre de la licencia].
+**Descripción**: Establece varios encabezados HTTP de seguridad para proteger tu aplicación contra varios tipos de ataques.  
+**Enlace**: [Helmet - npm](https://www.npmjs.com/package/helmet)
 
-```
+- **`helmet.frameguard()`**: Protege contra clickjacking.  
+  **Enlace**: [Frameguard Documentation](https://helmetjs.github.io/docs/frameguard/)
 
-Este archivo `README.md` ofrece una descripción clara y concisa de la estructura de tu proyecto, facilitando a otros desarrolladores comprender la arquitectura y cómo interactuar con ella.
+- **`helmet.contentSecurityPolicy()`**: Controla qué recursos pueden ser cargados por el navegador.  
+  **Enlace**: [Content Security Policy Documentation](https://helmetjs.github.io/docs/csp/)
+
+## Morgan
+
+**Descripción**: Registra todas las solicitudes HTTP para análisis y monitoreo.  
+**Enlace**: [Morgan - npm](https://www.npmjs.com/package/morgan)
+
+## Protección Contra CSRF
+
+**Descripción**: Protege tus formularios y solicitudes con tokens CSRF para evitar ataques de CSRF.  
+**Enlace**: [csurf - npm](https://www.npmjs.com/package/csurf)
+
+## Protección Contra XSS
+
+**Descripción**: Usa mecanismos para sanitizar y escapar los datos que se muestran en la interfaz de usuario.  
+**Enlace**: [DOMPurify - GitHub](https://github.com/cure53/DOMPurify)
+
+## Seguridad en el Manejo de Datos Sensibles
+
+**Descripción**: Usa hashing seguro para contraseñas y cifrado para datos sensibles.  
+**Enlace**: [bcrypt - npm](https://www.npmjs.com/package/bcrypt)
+
+## Protección Contra Inyecciones SQL y NoSQL
+
+**Descripción**: Usa consultas preparadas o parametrizadas para evitar inyecciones SQL y NoSQL.  
+**Enlace**: [Sequelize - Documentation](https://sequelize.org/)
+
+## Seguridad en la Comunicación
+
+**Descripción**: Usa HTTPS para cifrar la comunicación entre el cliente y el servidor.  
+**Enlace**: [Let's Encrypt - SSL/TLS Certificates](https://letsencrypt.org/)
+
+## Registro y Monitoreo
+
+**Descripción**: Registra y monitorea actividades para detectar incidentes de seguridad.  
+**Enlace**: [Morgan - npm](https://www.npmjs.com/package/morgan)
+
+## Configuración Segura del Servidor
+
+**Descripción**: Aplica actualizaciones de seguridad y desactiva servicios innecesarios.  
+**Enlace**: [Securing Your Server](https://www.digitalocean.com/community/tutorial_series/securing-your-server)
+
+## Código de Configuración
+
+![carbon](https://github.com/user-attachments/assets/8b8d0f4b-708b-4cb6-923f-f7955026acae)
+
+
+
+
+
+
+## Estudiantes
+
+- [@Julian Andres Caracas](https://github.com/julianandrescaracas0623)
+- [@Kevin Villegas Pérez](https://github.com/DaR3k6)
+
+
