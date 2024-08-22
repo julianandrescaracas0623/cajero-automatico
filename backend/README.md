@@ -104,7 +104,6 @@ No olvides mantener el archivo `.env` fuera de tu repositorio de control de vers
 
 Claro, aquí tienes un ejemplo completo del archivo `README.md` que incluye la configuración de la base de datos, los modelos, y un diagrama de relaciones entre los modelos:
 
-```markdown
 # Documentación del Proyecto
 
 ## Diagrama de Relación de Modelos
