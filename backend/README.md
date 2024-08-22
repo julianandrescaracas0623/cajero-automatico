@@ -103,9 +103,6 @@ Asegúrate de que los valores en el archivo `.env` coincidan con la configuraci�
 
 No olvides mantener el archivo `.env` fuera de tu repositorio de control de versiones (por ejemplo, usando un archivo `.gitignore`), ya que contiene información sensible que no debería compartirse públicamente.
 
-
-Claro, aquí tienes un ejemplo completo del archivo `README.md` que incluye la configuración de la base de datos, los modelos, y un diagrama de relaciones entre los modelos:
-
 # Diagrama de Relación de Modelos
 
 A continuación se muestra el diagrama de relaciones entre los modelos de la base de datos:
