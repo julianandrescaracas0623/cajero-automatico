@@ -104,9 +104,7 @@ No olvides mantener el archivo `.env` fuera de tu repositorio de control de vers
 
 Claro, aquí tienes un ejemplo completo del archivo `README.md` que incluye la configuración de la base de datos, los modelos, y un diagrama de relaciones entre los modelos:
 
-# Documentación del Proyecto
-
-## Diagrama de Relación de Modelos
+# Diagrama de Relación de Modelos
 
 A continuación se muestra el diagrama de relaciones entre los modelos de la base de datos:
 
@@ -138,73 +136,8 @@ El modelo `Usuario` representa a un usuario en la base de datos. Tiene los sigui
 - `numeroTelefono`: Número de teléfono del usuario.
 - `numeroPin`: PIN del usuario.
 
-```javascript
-const { DataTypes } = require("sequelize");
-const conexion = require("../database/conexion");
+![carbon](https://github.com/user-attachments/assets/0d54706d-3e8d-4103-afe0-fbf6e77e428c)
 
-const Usuario = conexion.define(
-  "Usuario",
-  {
-    idUsuario: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    tipoDocumento: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-    },
-    documento: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-    },
-    nombre: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    correo: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      unique: "correo_UNIQUE",
-    },
-    fechaNacimiento: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    fechaExpedicion: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    numeroTelefono: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-    },
-    numeroPin: {
-      type: DataTypes.STRING(60),
-      allowNull: false,
-    },
-  },
-  {
-    tableName: "Usuario",
-    timestamps: false,
-    indexes: [
-      {
-        name: "idx_usuario",
-        unique: true,
-        fields: ["tipoDocumento", "documento"],
-      },
-      {
-        name: "correo_UNIQUE",
-        unique: true,
-        fields: ["correo"],
-      },
-    ],
-  }
-);
-
-module.exports = Usuario;
-```
 
 #### Cuenta
 
@@ -214,46 +147,7 @@ El modelo `Cuenta` representa una cuenta asociada a un usuario. Tiene los siguie
 - `idUsuario`: Identificador del usuario al que pertenece la cuenta.
 - `saldo`: Saldo actual de la cuenta.
 
-```javascript
-const { DataTypes } = require("sequelize");
-const conexion = require("../database/conexion");
-const Usuario = require("./UsuarioModels");
-
-const Cuenta = conexion.define(
-  "Cuenta",
-  {
-    idCuenta: {
-      type: DataTypes.BIGINT,
-      primaryKey: true,
-      allowNull: false,
-    },
-    idUsuario: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    saldo: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-  },
-  {
-    tableName: "Cuenta",
-    timestamps: false,
-    indexes: [
-      {
-        name: "idx_usuario",
-        unique: true,
-        fields: ["idUsuario"],
-      },
-    ],
-  }
-);
-
-Cuenta.belongsTo(Usuario, { foreignKey: "idUsuario", as: "usuario" });
-Usuario.hasMany(Cuenta, { foreignKey: "idUsuario", as: "cuentas" });
-
-module.exports = Cuenta;
-```
+![carbon](https://github.com/user-attachments/assets/cdb40f26-1727-4cdb-8e83-4ff673fa722b)
 
 #### Transaccion
 
@@ -265,55 +159,7 @@ El modelo `Transaccion` representa una transacción asociada a una cuenta. Tiene
 - `monto`: Monto de la transacción.
 - `fechaTransaccion`: Fecha en la que se realizó la transacción (por defecto, la fecha actual).
 
-```javascript
-const { DataTypes } = require("sequelize");
-const conexion = require("../database/conexion");
-const Cuenta = require("./CuentaModels");
-
-const Transaccion = conexion.define(
-  "Transaccion",
-  {
-    idTransaccion: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    idCuenta: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-    },
-    tipoTransaccion: {
-      type: DataTypes.STRING(45),
-      allowNull: false,
-    },
-    monto: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-    fechaTransaccion: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-  },
-  {
-    tableName: "Transaccion",
-    timestamps: false,
-    indexes: [
-      {
-        name: "fk_Transaccion_Cuenta1_idx",
-        fields: ["idCuenta"],
-      },
-    ],
-  }
-);
-
-Transaccion.belongsTo(Cuenta, { foreignKey: "idCuenta", as: "cuenta" });
-Cuenta.hasMany(Transaccion, { foreignKey: "idCuenta", as: "transacciones" });
-
-module.exports = Transaccion;
-```
+![carbon](https://github.com/user-attachments/assets/62bc7f31-2dfa-4bf3-ad43-a4a38c6519d4)
 
 ### Relación entre Modelos
 
