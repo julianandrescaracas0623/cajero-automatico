@@ -1,15 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
-import MoveHorizontalIcon from "../../icons/MoveHorizontalIcon";
-import PdfIcons from "../../icons/PdfIcons";
-import ExitIcon from "../../icons/ExitIcons";
 import { useNavigate } from "react-router-dom";
+import ExitIcon from "../../icons/ExitIcons";
+import MoveHorizontalIcon from "../../icons/MoveHorizontalIcon";
 import PropTypes from "prop-types";
 
-const Menu = ({ isMenuOpen, toggleMenu, onReportClick }) => {
+const SubMenu = ({ isMenuOpen, toggleMenu }) => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    navigate("/main_menu");
+    localStorage.removeItem("usuario");
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -33,16 +35,9 @@ const Menu = ({ isMenuOpen, toggleMenu, onReportClick }) => {
             <div className="py-1">
               <button
                 className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                onClick={onReportClick}
-              >
-                <PdfIcons className="w-2 h-2 mr-2 inline-block" />
-                Reporte
-              </button>
-              <button
-                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
                 onClick={handleHomeClick}
               >
-                <ExitIcon className="w-2 h-2 mr-2 inline-block" />
+                <ExitIcon className="w-4 h-4 mr-2 inline-block" />
                 Salir
               </button>
             </div>
@@ -52,11 +47,8 @@ const Menu = ({ isMenuOpen, toggleMenu, onReportClick }) => {
     </div>
   );
 };
-
-Menu.propTypes = {
+SubMenu.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
   toggleMenu: PropTypes.func.isRequired,
-  onReportClick: PropTypes.func.isRequired,
 };
-
-export default Menu;
+export default SubMenu;

@@ -9,21 +9,60 @@ const getAccontByCuentaId = async idCuenta => {
   }
 };
 
-const updateSaldo = async (idCuenta, nuevoSaldo) => {
+const getAccontId = async idCuenta => {
   try {
-    const verificacionCuenta =
-      cuentaRepository.getAccontByCuentaIdCuenta(idCuenta);
-    
-    let saldoViejo = verificacionCuenta.dataValues.saldo;
-
-    if (saldoViejo + nuevoSaldo < 0) {
-      return false;
-    } else {
-      return await cuentaRepository.updateSaldo(idCuenta, nuevoSaldo);
-    }
+    return await cuentaRepository.getAccontByCuentaIdCuenta(idCuenta);
   } catch (error) {
     throw new Error("No se pudieron obtener la cuenta.");
   }
 };
 
-module.exports = { getAccontByCuentaId, updateSaldo };
+const getCuentaAndUsuarioById = async idCuenta => {
+  try {
+    return await cuentaRepository.getCuentaAndUsuarioById(idCuenta);
+  } catch (error) {
+    throw new Error("No se pudieron obtener la cuenta.");
+  }
+};
+
+const updateSaldo = async (idCuenta, nuevoSaldo) => {
+  try {
+    const cuenta = await cuentaRepository.getAccontByCuentaIdCuenta(idCuenta);
+
+    if (cuenta === null) {
+      return false;
+    }
+
+    const saldoViejo = cuenta.saldo;
+    const saldoActualizado = saldoViejo + nuevoSaldo;
+
+    return await cuentaRepository.updateSaldo(idCuenta, saldoActualizado);
+  } catch (error) {
+    throw new Error("No se pudieron obtener la cuenta.");
+  }
+};
+
+const updateSaldoRetirado = async (idCuenta, nuevoSaldo) => {
+  try {
+    const cuenta = await cuentaRepository.getAccontByCuentaIdCuenta(idCuenta);
+
+    if (cuenta === null) {
+      return false;
+    }
+
+    const saldoViejo = cuenta.saldo;
+    const saldoActualizado = saldoViejo - nuevoSaldo;
+
+    return await cuentaRepository.updateSaldo(idCuenta, saldoActualizado);
+  } catch (error) {
+    throw new Error("No se pudieron obtener la cuenta.");
+  }
+};
+
+module.exports = {
+  getAccontByCuentaId,
+  updateSaldo,
+  getAccontId,
+  getCuentaAndUsuarioById,
+  updateSaldoRetirado,
+};

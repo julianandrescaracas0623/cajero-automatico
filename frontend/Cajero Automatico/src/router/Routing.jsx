@@ -35,23 +35,35 @@ const Routing = () => {
             {/* Rutas privadas */}
             <Route path="/main_menu" element={<LayoutPrivate />}>
               <Route index element={<MenuPrincipal />} />
+
+              {/* Rutas Saldos Personas */}
               <Route
                 path="/main_menu/balances"
                 element={<SaldosPersonales />}
               />
+
+              {/* Rutas Retirar Saldo */}
               <Route
                 path="/main_menu/withdraw-balances"
                 element={<RetirarSaldo />}
               />
+
               <Route
                 path="/main_menu/retired-balances"
                 element={<SaldosPersonales />}
               />
 
+              {/* Rutas Consignar Saldo */}
               <Route
                 path="/main_menu/deposit-balance"
                 element={<ConsignarSaldo />}
               />
+
+              <Route
+                path="/main_menu/consign-deposit/:idCuenta"
+                element={<SaldosPersonales />}
+              />
+
             </Route>
             <Route path="*" element={<Error />} />
           </Routes>
