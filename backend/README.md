@@ -181,7 +181,7 @@ En esta sección, se describen las medidas de seguridad implementadas en la apli
 
 ### helmet.frameguard()
 - **Descripción**: Protege contra ataques de clickjacking.
-- **Más información**: [Frameguard Documentation]([https://helmetjs.github.io/docs/frameguard/](https://helmetjs.github.io/))
+- **Más información**: [Frameguard Documentation](https://helmetjs.github.io/docs/frameguard/)
 
 ### Morgan
 - **Descripción**: Registra todas las solicitudes HTTP para análisis y monitoreo.
@@ -194,7 +194,6 @@ En esta sección, se describen las medidas de seguridad implementadas en la apli
 ### Sequelize
 - **Descripción**: ORM (Object-Relational Mapping) que facilita la interacción con bases de datos SQL. Permite realizar consultas de manera segura mediante el uso de consultas preparadas y parametrizadas para evitar inyecciones SQL.
 - **Más información**: [Sequelize - Documentation](https://sequelize.org/docs/v6/)
-
 ## Código de Configuración
 ![carbon](https://github.com/user-attachments/assets/8b8d0f4b-708b-4cb6-923f-f7955026acae)
 
