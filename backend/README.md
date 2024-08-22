@@ -3,7 +3,9 @@
 
 ## Descripción General
 
-Este proyecto está construido utilizando una arquitectura en capas en Node.js, lo cual ayuda a separar responsabilidades y a hacer que el código sea más modular, mantenible y escalable. Cada capa en esta arquitectura tiene una responsabilidad específica, y se comunican entre sí a través de interfaces bien definidas.
+Este proyecto está construido utilizando una arquitectura en capas en Node.js, lo cual ayuda a separar responsabilidades
+y a hacer que el código sea más modular, mantenible y escalable. Cada capa en esta arquitectura tiene una responsabilidad específica, y se
+comunican entre sí a través de interfaces bien definidas.
 
 ## Estructura del Proyecto
 
