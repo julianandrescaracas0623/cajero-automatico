@@ -5,7 +5,7 @@ import ExitIcon from "../../icons/ExitIcons";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const Menu = ({ isMenuOpen, toggleMenu }) => {
+const Menu = ({ isMenuOpen, toggleMenu, onReportClick }) => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
@@ -31,7 +31,10 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
             className="absolute right-0 mt-2 w-48 bg-white border border-black rounded shadow-lg"
           >
             <div className="py-1">
-              <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">
+              <button
+                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                onClick={onReportClick}
+              >
                 <PdfIcons className="w-2 h-2 mr-2 inline-block" />
                 Reporte
               </button>
@@ -49,8 +52,11 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
     </div>
   );
 };
+
 Menu.propTypes = {
   isMenuOpen: PropTypes.bool.isRequired,
   toggleMenu: PropTypes.func.isRequired,
+  onReportClick: PropTypes.func.isRequired,
 };
+
 export default Menu;

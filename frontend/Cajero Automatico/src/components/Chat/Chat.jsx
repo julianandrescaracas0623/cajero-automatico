@@ -5,6 +5,7 @@ import MensajeError from "../message/MensajeError";
 import MensajeDialog from "../message/MensajeDialog";
 import Header from "./Header";
 import InfoCard from "./InfoCard";
+import GeneratePDF from "../../pdf/generatePDF";
 
 const ChatMessage = () => {
   // Estado para controlar si el menú está abierto o cerrado
@@ -146,6 +147,13 @@ const ChatMessage = () => {
     }
   };
 
+  const handleReportClick = () => {
+    // Aquí puedes manejar la lógica para generar el PDF
+    console.log(accountInfo);
+
+    GeneratePDF({ info: accountInfo, saldoRetiro: formData });
+  };
+
   // useEffect para llamar a las funciones de obtención de datos según la ruta actual
   useEffect(() => {
     if (
@@ -219,7 +227,11 @@ const ChatMessage = () => {
 
   return (
     <div className="flex flex-col h-screen max-w-md mx-auto bg-gray-50 text-gray-900">
-      <Header isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
+      <Header
+        isMenuOpen={isMenuOpen}
+        toggleMenu={toggleMenu}
+        onReportClick={handleReportClick}
+      />
       <div className="flex-1 overflow-auto">
         <div className="p-4 space-y-4 border border-black">
           <InfoCard

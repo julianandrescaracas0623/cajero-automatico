@@ -8,7 +8,7 @@ import { useState } from "react";
 const MenuPrincipal = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
   const handSaldosClick = () => {
     navigate("/main_menu/balances");
