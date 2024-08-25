@@ -1,3 +1,8 @@
+# Aviso Importante
+
+Este proyecto es solo un prototipo educativo. No está afiliado, respaldado, ni asociado con [Bancolombia]. El uso de nombres, logos y otros elementos de marca es solo con fines de demostración y no debe interpretarse como una conexión con la entidad real. Este proyecto no debe ser utilizado en sistemas de producción.
+
+
 # Análisis de un Cajero Automático en C++
 
 Este proyecto es una simulación básica de un cajero automático escrita en C++. El objetivo es comprender el funcionamiento básico de un cajero automático programado en C++ y explorar los requerimientos necesarios para actualizar su implementación hacia una solución moderna con una interfaz gráfica y funcionalidad web, además de almacenar la información en una base de datos.
