@@ -213,6 +213,38 @@ Se implementará un sistema de autenticación más seguro y moderno.
 - Incrementará la seguridad del sistema, reduciendo el riesgo de accesos no autorizados.
 - Mejorará la confianza del usuario en el sistema al garantizar la protección de su información personal y financiera.
 
+# Consideraciones de Seguridad
+
+En esta sección, se describen las medidas de seguridad implementadas en la aplicación Express y se proporcionan enlaces a la documentación relevante para cada aspecto de seguridad.
+
+### CORS (Cross-Origin Resource Sharing)
+- **Descripción**: Controla qué orígenes pueden acceder a los recursos de la aplicación.
+- **Más información**: [CORS - npm](https://www.npmjs.com/package/cors)
+
+### Helmet
+- **Descripción**: Configura varios encabezados HTTP para mejorar la seguridad.
+- **Más información**: [Helmet - npm](https://www.npmjs.com/package/helmet)
+
+### helmet.frameguard()
+- **Descripción**: Protege contra ataques de clickjacking.
+- **Más información**: [Frameguard Documentation](https://helmetjs.github.io/)
+
+### Morgan
+- **Descripción**: Registra todas las solicitudes HTTP para análisis y monitoreo.
+- **Más información**: [Morgan - npm](https://www.npmjs.com/package/morgan)
+
+### helmet.contentSecurityPolicy()
+- **Descripción**: Controla qué recursos pueden ser cargados por el navegador para prevenir ataques XSS.
+- **Más información**: [Content Security Policy - Helmet](https://helmetjs.github.io/)
+
+### Sequelize
+- **Descripción**: ORM (Object-Relational Mapping) que facilita la interacción con bases de datos SQL. Permite realizar consultas de manera segura mediante el uso de consultas preparadas y parametrizadas para evitar inyecciones SQL.
+- **Más información**: [Sequelize - Documentation](https://sequelize.org/docs/v6/)
+  
+## Código de Configuración
+![carbon](https://github.com/user-attachments/assets/8b8d0f4b-708b-4cb6-923f-f7955026acae)
+  
+
 ## Conclusión
 
 Este proyecto proporciona una base sólida para entender cómo funcionan los cajeros automáticos en su forma más fundamental a través de una implementación en C++. A través de esta simulación básica, adquirimos una familiarizacion con las estructuras de datos, la lógica de operaciones y los mecanismos de autenticación esenciales para cualquier sistema bancario.
