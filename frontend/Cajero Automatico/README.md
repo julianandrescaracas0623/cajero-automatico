@@ -112,5 +112,96 @@ Las diferentes capas del proyecto se conectan entre sí de manera eficiente, lo 
   - **`postcss.config.js`**: Configura PostCSS, una herramienta para transformar CSS con plugins.
   - **`tailwind.config.js`**: Configura Tailwind CSS, un framework de utilidades CSS.
   - **`vite.config.js`**: Configura Vite, una herramienta para el bundling y desarrollo rápido de aplicaciones web.
+ 
+ ## Modelos
+
+## User
+- **Descripción:** Representa a los usuarios del sistema.
+- **Campos:**
+  - **`id`**: Identificador único del usuario.
+  - **`username`**: Nombre de usuario.
+  - **`password`**: Contraseña encriptada.
+  - **`email`**: Correo electrónico del usuario.
+  - **`createdAt`**: Fecha de creación del registro.
+  - **`updatedAt`**: Fecha de última actualización del registro.
+
+## Transaction
+- **Descripción:** Representa las transacciones realizadas por los usuarios.
+- **Campos:**
+  - **`id`**: Identificador único de la transacción.
+  - **`userId`**: Identificador del usuario que realizó la transacción.
+  - **`type`**: Tipo de transacción (e.g., depósito, retiro).
+  - **`amount`**: Monto de la transacción.
+  - **`createdAt`**: Fecha de creación del registro.
+  - **`updatedAt`**: Fecha de última actualización del registro.
+
+## Account
+- **Descripción:** Representa las cuentas bancarias de los usuarios.
+- **Campos:**
+  - **`id`**: Identificador único de la cuenta.
+  - **`userId`**: Identificador del usuario propietario de la cuenta.
+  - **`balance`**: Saldo actual de la cuenta.
+  - **`createdAt`**: Fecha de creación del registro.
+  - **`updatedAt`**: Fecha de última actualización del registro.
+
+
+ # Dependencias Utilizadas en el lado del Frontend
+
+- **`bcryptjs`**: Para encriptar contraseñas.
+- **`cors`**: Para habilitar CORS (Cross-Origin Resource Sharing).
+- **`dotenv`**: Para cargar variables de entorno desde un archivo `.env`.
+- **`express`**: Framework web para Node.js.
+- **`helmet`**: Para mejorar la seguridad de las aplicaciones Express.
+- **`jsonwebtoken`**: Para trabajar con JSON Web Tokens (JWT).
+- **`morgan`**: Middleware para registrar solicitudes HTTP.
+- **`multer`**: Middleware para manejar la carga de archivos.
+- **`mysql2`**: Cliente MySQL para Node.js.
+- **`nodemon`**: Herramienta para reiniciar automáticamente el servidor en desarrollo.
+- **`pdfkit`**: Para generar archivos PDF.
+- **`sequelize`**: ORM (Object-Relational Mapper) para Node.js.
+- **`sqlite3`**: Base de datos SQLite.
+
+# Instalación del Frontend
+
+1. El primer paso que debemos seguir es ubicarnos en la carpeta Frontend de la siguiente manera:
+
+   ```bash
+   cd .\frontend\
+   ```
+2. Luego de estar dentro de la carpeta Frontend debemos ingresar a su sub-carperta llamada cajero Automatico de la siguiente manera:
+ 
+   ```bash
+   cd .\Cajero Automatico\
+   ```
+3. Ya estando dentro de Cajero Automatico, podremos instalar todas las dependencias utilizadas en el proyecto para estar al dia, de la siguiente manera:
+
+   ```bash
+   npm install
+   ```
+   o para no escribir toda la palabra install podemos solo escribir lo siguiente:
+
+   ```bash
+   npm -i
+   ```
+4. Ya por ultimo teniendo en cuanta que tenemos todas las dependencias instaladas y estamos en la ruta correcta  **`Cajero Automatico`** procedemos a correr el proyecto de lado del cliente con el siguiente comando:
+
+   ```bash
+   npm run dev
+   ```
+# NOTA
+Luego de haber seguidos estas indicaciones, el proyecto el servidor deberia empezar a correr por el puerto **`5173`** sin ningún problema, tener en cuanta tambien la configuración del backend para tener los dos servidores activos, el del servidor y el del cliente, ya que estos deben estar comunicandose entre si.
+
+## Estudiantes
+
+- [@Julian Andres Caracas](https://github.com/julianandrescaracas0623)
+- [@Kevin Villegas Pérez](https://github.com/DaR3k6)
+
+
+   
+   
+   
+
+
+
 
 
